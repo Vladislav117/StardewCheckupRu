@@ -135,6 +135,10 @@ window.onload = function () {
 		return wikify(item);
 	}
 
+	function wikimapTranslateMonster(id) {
+		return wikify(translateMonster(id));
+	}
+
 	function printTranspose(table) {
 		var output = '<table class="output">',
 			id;
@@ -189,7 +193,7 @@ window.onload = function () {
 			input = n + '%';
 		}
 
-		return ' (<a href="#sec_Perfection_Tracker">Сов: ' + input + '</a>)';
+		return ' (<a href="#sec_Perfection_Tracker">Совершенство: ' + input + '</a>)';
 	}
 
 	function getSectionHeader(saveInfo, title, anchor, showDetailsButton, version) {
@@ -3137,7 +3141,7 @@ window.onload = function () {
 		/* Conditions & details from decompiled source StardewValley.Locations.AdventureGuild.gil()
 		 * The game counts some monsters which are not currently available; we will count them too
 		 * just in case they are in someone's save file, but not list them in the details. */
-		var title = 'Monster Hunting',
+		var title = 'Охота на монстров',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -3246,30 +3250,30 @@ window.onload = function () {
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		if (mineLevel <= 0) {
-			output += '<span class="result">' + farmer + ' has not yet explored the mines.</span><br />\n';
+			output += '<span class="result">' + farmer + ' ещё не исселодовал шахту.</span><br />\n';
 		} else {
-			output += '<span class="result">' + farmer + ' has reached level ' + Math.min(mineLevel, 120) +
-				' of the mines.</span><br />\n';
+			output += '<span class="result">' + farmer + ' достиг ' + Math.min(mineLevel, 120) +
+				' этажа шахты.</span><br />\n';
 			output += '<span class="result">' + farmer + ((mineLevel > 120) ?
-				(' has reached level ' + (mineLevel - 120) + ' of the Skull Cavern') :
-				' has not yet explored the Skull Cavern');
+				(' достиг ' + (mineLevel - 120) + ' этажа Пещеры Черепа') :
+				' ещё не открыл Пещеру Черепа');
 			output += '.</span></div>';
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<ul class="ach_list"><li>\n';
-		output += (mineLevel >= 120) ? getAchieveString('The Bottom', 'reach mine level 120', 1) :
-				getAchieveString('The Bottom', 'reach mine level 120', 0) + (120 - mineLevel) + ' more';
+		output += (mineLevel >= 120) ? getAchieveString('Достигнуть дна', 'Достигнуть самого нижнего уровня шахт', 1) :
+				getAchieveString('Достигнуть дна', 'Достигнуть самого нижнего уровня шахт', 0, true) + (120 - mineLevel);
 		output += '</li></ul></div>';
 
 		if (compareSemVer(saveInfo.version, "1.6") >= 0) {
 			var totalMonstersKilled = saveInfo.data[umid].stats.hasOwnProperty("monstersKilled") ? Number(saveInfo.data[umid].stats["monstersKilled"]) : 0;
 			output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-			output += '<span class="result">' + farmer + ' has killed ' + addCommas(totalMonstersKilled) +
-				' monsters</span><br />\n';
+			output += '<span class="result">' + farmer + ' убил ' + addCommas(totalMonstersKilled) +
+				' монстров</span><br />\n';
 			output += '<ul class="ach_list"><li>\n';
-			output += (totalMonstersKilled >= 1000) ? getMilestoneString('Gain access to the Adventure Guild back room', 1) :
-					getMilestoneString('Gain access to the Adventure Guild back room', 0) + ' to kill ' + (1000 - totalMonstersKilled) +
-					' more monsters';
+			output += (totalMonstersKilled >= 1000) ? getMilestoneString('Получить доступ к задней комнате гильдии искателей приключений', 1) :
+					getMilestoneString('Получить доступ к задней комнате гильдии искателей приключений', 0) + ' убить ещё ' + (1000 - totalMonstersKilled) +
+					' монстров';
 			output += '</li></ul></div>';
 		}
 
@@ -3297,31 +3301,31 @@ window.onload = function () {
 					if (killed[id] >= meta.goals[id]) {
 						completed++;
 					} else {
-						need.push('<li>' + id + ' -- kill ' + (meta.goals[id] - killed[id]) + ' more of: ' +
-							meta.monsters[id].map(wikimap).join(', ') + '</li>');
+						need.push('<li>' + translateMonsterHuntingCategory(id) + ' - убить ещё ' + (meta.goals[id] - killed[id]) + ': ' +
+							meta.monsters[id].map(wikimapTranslateMonster).join(', ') + '</li>');
 					}
 				} else {
-					need.push('<li>' + id + ' -- kill ' + meta.goals[id] + ' more of: ' +
-						meta.monsters[id].map(wikimap).join(', ') + '</li>');
+					need.push('<li>' +  translateMonsterHuntingCategory(id) + ' - убить ещё ' + meta.goals[id] + ': ' +
+						meta.monsters[id].map(wikimapTranslateMonster).join(', ') + '</li>');
 				}
 			}
 		}
 
 		if (compareSemVer(saveInfo.version, "1.5") >= 0) {
 			saveInfo.perfectionTracker[umid]["Monsters"] = (completed >= goal_count);
-			pt_pct = getPTLink((completed >= goal_count) ? "Yes" : "No");
+			pt_pct = getPTLink((completed >= goal_count) ? "Да" : "Нет");
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + ' has completed ' + completed + ' of the ' + goal_count +
-				' Monster Eradication goals.' + pt_pct + '</span><ul class="ach_list">\n';
+		output += '<span class="result">' + farmer + ' выполнил ' + completed + ' из ' + goal_count +
+				' целей из Плана по истреблению чудовищ.' + pt_pct + '</span><ul class="ach_list">\n';
 		output += '<li>';
-		output += (completed >= goal_count) ? getAchieveString('Protector of the Valley', 'all monster goals', 1) :
-				getAchieveString('Protector of the Valley', 'all monster goals', 0) + (goal_count - completed) + ' more';
+		output += (completed >= goal_count) ? getAchieveString('Защитник деревни', 'Выполнить все задания разрушителя монстров в гильдии искателей приключений', 1) :
+				getAchieveString('Защитник деревни', 'Выполнить все задания разрушителя монстров в гильдии искателей приключений', 0, true) + (goal_count - completed);
 		output += '</li></ul></div>';
 		if (need.length > 0) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-			output += '<span class="need">Goals left:<ol>' + need.sort().join('') + '</ol></span></div>';
+			output += '<span class="need">Оставшиеся цели:<ol>' + need.sort().join('') + '</ol></span></div>';
 		}
 		table.push(output);
 		return table;

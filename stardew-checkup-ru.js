@@ -11,3 +11,11 @@ function translateSeason(season) {
     if (season === "winter") return "Зима";
     return season;
 }
+
+function translateMonsterHuntingCategory(id) {
+    return translate("AdventureGuild_KillList_" + id.replace(" ", ""));
+}
+
+function translateMonster(id) {
+    return id;
+}
