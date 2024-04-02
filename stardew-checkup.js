@@ -86,7 +86,7 @@ window.onload = function () {
 					'<span class="pt_no"><span class="pts"> ' + pts + '%</span> (of ' + max + '% possible) from ' + desc + extra +
 					' (' + pretty_pct + '%)</span>';
 	}
-	
+
 	function getPerfectionNumString(num, max, desc, yes, who = "") {
 		var pts = num;
 		var pretty_pct = num + "/" + max;
@@ -95,7 +95,7 @@ window.onload = function () {
 					'<span class="pt_no"><span class="pts"> ' + pts + '%</span> (of ' + max + '% possible) from ' + desc + extra +
 					' (' + pretty_pct + ')</span>';
 	}
-	
+
 	function getPerfectionPctNumString(pct, max, count, desc, yes, who = "") {
 		var pts = max * pct;
 		var places = 2;
@@ -122,10 +122,10 @@ window.onload = function () {
 		trimmed = trimmed.replace(/#/g, '.23');
 		trimmed = trimmed.replace(/ /g, '_');
 		if (page) {
-			return (no_anchor) ? ('<a href="http://stardewvalleywiki.com/' + page + '">' + item + '</a>') :
-				('<a href="http://stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>');
+			return (no_anchor) ? ('<a href="http://ru.stardewvalleywiki.com/' + page + '">' + item + '</a>') :
+				('<a href="http://ru.stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>');
 		} else {
-			return ('<a href="http://stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
+			return ('<a href="http://ru.stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
 		}
 	}
 
@@ -133,7 +133,7 @@ window.onload = function () {
 		// Wrapper to allow wikify to be used within an array map without misinterpreting the 2nd and 3rd arguments.
 		return wikify(item);
 	}
-	
+
 	function printTranspose(table) {
 		var output = '<table class="output">',
 			id;
@@ -148,7 +148,7 @@ window.onload = function () {
 		output += '</table>';
 		return output;
 	}
-	
+
 	function isValidFarmhand(player) {
 		// Had been using a blank userID field to determine that a farmhand slot is empty
 		// until a user sent a save where a valid farmhand had no ID. Now using both a blank
@@ -158,7 +158,7 @@ window.onload = function () {
 		}
 		return true;
 	}
-	
+
 	function getSummaryClass(saveInfo, version) {
 		// Relatively simple conditional checks that need to be done a whole lot
 		var prefs = (compareSemVer(version, "1.6") < 0) ? saveInfo.outputPrefOld : saveInfo.outputPrefNew;
@@ -168,14 +168,14 @@ window.onload = function () {
 		}
 		return sum_class;
 	}
-	
+
 	function getDetailsClass(saveInfo, version) {
 		// Relatively simple conditional checks that need to be done a whole lot
 		var prefs = (compareSemVer(version, "1.6") < 0) ? saveInfo.outputPrefOld : saveInfo.outputPrefNew;
 		var det_class = "initial_show";
 		if (prefs === 'hide_all' || prefs === 'hide_details') {
 			det_class = "initial_hide";
-		}			
+		}
 		return det_class;
 	}
 
@@ -187,10 +187,10 @@ window.onload = function () {
 			var n = Number(100*input).toFixed(places);
 			input = n + '%';
 		}
-		
-		return ' (<a href="#sec_Perfection_Tracker">PT: ' + input + '</a>)';
+
+		return ' (<a href="#sec_Perfection_Tracker">Сов: ' + input + '</a>)';
 	}
-	
+
 	function getSectionHeader(saveInfo, title, anchor, showDetailsButton, version) {
 		// Sets up title and buttons which control the collapsible output
 		// showDetailsButton is a bool so that we don't have a control for empty details
@@ -198,7 +198,7 @@ window.onload = function () {
 		//   version 1.2 is the baseline value for most original sections
 		//   "old" currently means before version 1.5 and "new" is 1.5 & later
 		var prefs = (compareSemVer(version, "1.6") < 0) ? saveInfo.outputPrefOld : saveInfo.outputPrefNew;
-		
+
 		var output = '<div class="collapsible" id="wrap_' + anchor + '"><h3>' + title + '</h3>';
 		var sum_button, sum_class, det_button, det_class;
 
@@ -206,23 +206,23 @@ window.onload = function () {
 			sum_button = "Скрыть сводку";
 		} else {
 			sum_button = "Показать сводку";
-		}			
+		}
 		if (prefs === 'hide_all' || prefs === 'hide_details') {
 			det_button = "Показать подробности";
 		} else {
 			det_button = "Скрыть подробности";
-		}			
+		}
 
 		// Supporting sections that don't have details also should not have the button. We'll leave the empty div alone
 		var button_element = "(Подробностей нет)";
 		if (showDetailsButton) {
 			button_element = '<button id="toggle_' + anchor + '_details" type="button" data-target="' + anchor + '_details">' + det_button + '</button>';
 		}
-		
+
 		output += ' <button id="toggle_' + anchor + '_summary" type="button" data-target="' + anchor + '_summary">' + sum_button + '</button> ' + button_element;
 		return output;
 	}
-	
+
 	function getSectionFooter() {
 		// Companion to getSectionHeader() that mainly exists so that we close all the things the header opened
 		// Currently almost pointless but better base for future expansion.
@@ -230,17 +230,17 @@ window.onload = function () {
 	}
 
 	function collapsibleWrap(saveInfo, title, output, version) { return "<h4>PLACEHOLDER</h4>" + output; }
-	
+
 	function makeAnchor(text) {
 		// forces lower-case and converts non-alpha characters to underscore for simple ID attributes
 		var id = text;
 		id.toLowerCase();
 		return id.replace(/[^\w*]/g, '_');
 	}
-	
+
 	// Individual chunks of save parsing.
 	// Each receives the xmlDoc object to parse & the saveInfo information structure and returns HTML to output.
-	// Most also create a meta object which is passed to the per-player info subroutine primarily to find out if 
+	// Most also create a meta object which is passed to the per-player info subroutine primarily to find out if
 	// there are any details so that we know whether to show a button later.
 	// saveInfo stores meta information like object ID -> name mappings and also things that we were parsing
 	// way too often such as mail flags and player stats
@@ -269,7 +269,7 @@ window.onload = function () {
 			versionLabel,
 			farmhands = [],
 			farmhandSelector = 'farmhand';
-		
+
 		// Versioning has changed from bools to numbers, to now a semver string.
 		saveInfo.version = $(xmlDoc).find('gameVersion').first().text();
 		if (saveInfo.version === "") {
@@ -297,7 +297,7 @@ window.onload = function () {
 		id = populateData($(xmlDoc).find('player'), saveInfo);
 		saveInfo.farmerId = id;
 		farmer = saveInfo.data[id].name;
-		
+
 		saveInfo.players[id] = saveInfo.data[id].name;
 		saveInfo.children[id] = [];
 		$(xmlDoc).find("[" + saveInfo.ns_prefix + "\\:type='FarmHouse'] NPC[" + saveInfo.ns_prefix + "\\:type='Child']").each(function () {
@@ -315,13 +315,13 @@ window.onload = function () {
 			'Walnuts': { 'count': 0, 'total': 130 },
 			} };
 		saveInfo.perfectionTracker[id] = {};
-		
+
 		output = getSectionHeader(saveInfo, title, anchor, false, version);
 		output += '<div class="' + anchor + '_summary ' + sum_class + '">';
 		output += '<span class="result">Ферма ' + saveInfo.farmName + ' (' +
 			farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />';
 		output += '<span class="result">Фермер ' + farmer ;
-		
+
 		if (compareSemVer(saveInfo.version, "1.6") >= 0) {
 			farmhandSelector = "farmhands > Farmer";
 		}
@@ -1006,7 +1006,7 @@ window.onload = function () {
 		output += getSectionFooter();
 		return output;
 	}
-	
+
 	// After Stardew 1.6 changes to how farmhands are stored in the save we have created this wrapper for all the farmhand handling.
 	function parseFarmhands(xmlDoc, saveInfo, table, func, ...args) {
 		if (saveInfo.numPlayers > 1) {
@@ -1021,7 +1021,7 @@ window.onload = function () {
 			});
 		}
 	}
-	
+
 	function populateData(player, saveInfo) {
 		var id = "0";
 		var name = $(player).children('name').html();
@@ -1063,8 +1063,8 @@ window.onload = function () {
 		$(player).find('experiencePoints > int').each(function () {
 			// Note that we are recording the value for Luck here too
 			saveInfo.data[id].experiencePoints.push(Number($(this).text()));
-		});		
-		
+		});
+
 		return id;
 	}
 
@@ -1102,7 +1102,7 @@ window.onload = function () {
 		output += (money >= 1e7) ? getAchieveString('Легенда', 'заработать 10,000,000 з.', 1) :
 				getAchieveString('Легенда', 'заработать 10,000,000 з.', 0, true) + addCommas(1e7 - money) + ' з.';
 		output += '</li></ul></div>';
-		
+
 		if (separateWallets) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
@@ -1135,7 +1135,7 @@ window.onload = function () {
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [],
 			spouse = $(xmlDoc).find('player > spouse').text(); // only used for 1.2 engagement checking
-			
+
 			meta.countdown = Number($(xmlDoc).find('countdownToWedding').text());
 			// NPCs and NPC Types we are ignoring either in location data or friendship data
 			meta.ignore = {
@@ -1348,16 +1348,16 @@ window.onload = function () {
 			});
 			// checks for events which can be permanently missed; 1st is Clint 6H, second is Sam 3H
 			// Penny 4H & 6H added if Pam House Upgrade is done in some versions.
-			if ((arr[1] === 101 && (eventsSeen.hasOwnProperty(2123243) || eventsSeen.hasOwnProperty(2123343))) || 
+			if ((arr[1] === 101 && (eventsSeen.hasOwnProperty(2123243) || eventsSeen.hasOwnProperty(2123343))) ||
 				(arr[1] === 733330 && saveInfo.data[umid].stats.daysPlayed > 84) ||
-				(arr[1] === 35 && hasPamHouse && (compareSemVer(saveInfo.version, "1.5") < 0)) || 
+				(arr[1] === 35 && hasPamHouse && (compareSemVer(saveInfo.version, "1.5") < 0)) ||
 				(arr[1] === 36 && hasPamHouse && (compareSemVer(saveInfo.version, "1.4") < 0))) {
 					neg = 'imp';
 				}
 			// 10-heart events will be tagged impossible if there is no bouquet.
 			if (arr[0] == 10 && meta.npc[who].isDatable && meta.npc[who].relStatus == 'Friendly') {
 				neg = 'imp';
-			}			
+			}
 			// 14-heart events will be tagged impossible if the player is married to someone else.
 			if (arr[0] >= 14 && who !== spouse) {
 				neg = 'imp';
@@ -1377,7 +1377,7 @@ window.onload = function () {
 				meta.npc[who].relStatus = 'Angry (' + dumped_Girls + ' more day(s))';
 			} else if (dumped_Guys > 0 && npc[who].isDatable && !npc[who].isGirl) {
 				nmeta.pc[who].relStatus = 'Angry (' + dumped_Guys + ' more day(s))';
-			} 
+			}
 			var pts = 0;
 			if (points.hasOwnProperty(who)) {
 				pts = points[who];
@@ -1388,7 +1388,7 @@ window.onload = function () {
 			var entry = '<li>';
 			entry += (meta.npc[who].isChild) ? who + ' (' + wikify('Child', 'Children') + ')' : wikify(who);
 			entry += ': ' + meta.npc[who].relStatus + ', ' + hearts + '&#x2665; (' + pts + ' pts) -- ';
-				
+
 			// Check events
 			// We want to only make an Event list item if there are actually events for this NPC.
 			var eventInfo = '';
@@ -1455,7 +1455,7 @@ window.onload = function () {
 		});
 
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + ' has ' + (hasCompletedIntroductions ? "" : "not ") + 
+		output += '<span class="result">' + farmer + ' has ' + (hasCompletedIntroductions ? "" : "not ") +
 				'met everyone in town.</span><ul class="ach_list">\n';
 		output += '<li>';
 		output += (list_intro.length == 0) ? getMilestoneString('Complete <span class="ach">Introductions</span> quest', 1) :
@@ -1484,7 +1484,7 @@ window.onload = function () {
 				getAchieveString('Popular', '5&#x2665; with 20 people', 0) + (20 - count_5h) + ' more';
 		output += '</li></ul></div>';
 		table.push(output);
-		
+
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + farmer + ' has ' + count_10h + ' relationships of 10+ hearts.</span><ul class="ach_list">\n';
 		output += '<li>';
@@ -1582,7 +1582,7 @@ window.onload = function () {
 			title = "roommate"
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + "'s " + title + ": " + spouse + 
+		output += '<span class="result">' + farmer + "'s " + title + ": " + spouse +
 			((meta.wedding) ? ' -- wedding in ' + meta.wedding + ' day(s)' : '') + '</span><br />\n';
 		if (saveInfo.children.hasOwnProperty(umid) && saveInfo.children[umid].length > 0) {
 			child_name = saveInfo.children[umid];
@@ -1638,7 +1638,7 @@ window.onload = function () {
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [],
 			id;
-			
+
 			meta.recipes = {
 				194: "Fried Egg",
 				195: "Omelet",
@@ -1727,7 +1727,7 @@ window.onload = function () {
 			meta.recipes[253] = "Triple Shot Espresso";
 			meta.recipes[265] = "Seafoam Pudding";
 		}
-		
+
 		if (compareSemVer(saveInfo.version, "1.5") >= 0) {
 			meta.recipes[903] = "Ginger Ale";
 			meta.recipes[904] = "Banana Pudding";
@@ -1753,7 +1753,7 @@ window.onload = function () {
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
 		return output;
 	}
-		
+
 	function parsePlayerCooking(player, saveInfo, meta) {
 		/* cookingRecipes is keyed by name, but recipesCooked is keyed by ObjectInformation ID.
 		 * Also, some cookingRecipes names are different from the names in ObjectInformation (e.g. Cookies vs Cookie) */
@@ -1868,7 +1868,7 @@ window.onload = function () {
 			playerOutput = '',
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
-			
+
 			meta.recipes = ["Cherry Bomb", "Bomb", "Mega Bomb",
 							"Gate", "Wood Fence", "Stone Fence", "Iron Fence", "Hardwood Fence",
 							"Sprinkler", "Quality Sprinkler", "Iridium Sprinkler",
@@ -2120,7 +2120,7 @@ window.onload = function () {
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePlayerFishing(player, saveInfo, meta) {
 		// Much of the logic was ported from the crafting function which is why the variables are weirdly named
 		var output = '',
@@ -2162,7 +2162,7 @@ window.onload = function () {
 			umid = (compareSemVer(saveInfo.version, "1.3") >= 0) ? $(player).children('UniqueMultiplayerID').text() : saveInfo.farmerId,
 			pt_pct = '',
 			r;
-			
+
 		if (compareSemVer(saveInfo.version, "1.6") < 0) {
 			ignore[372] = 1; // Clams were not part of fishing collection until 1.6
 			ignore[898] = 1; // 1.5 "Extended Family" Legendary -- Son of Crimsonfish
@@ -2235,7 +2235,7 @@ window.onload = function () {
 			if (compareSemVer(saveInfo.version, "1.3") === 0) {
 				output += '</li>\n<li>';
 				output += (craft_count >= recipe_count) ? getMilestoneString('Catch every type of fish', 1) :
-					getMilestoneString('Catch every type of fish', 0) + (recipe_count - craft_count) + ' more';				
+					getMilestoneString('Catch every type of fish', 0) + (recipe_count - craft_count) + ' more';
 			}
 		}
 		output += '</li></ul>';
@@ -2431,7 +2431,7 @@ window.onload = function () {
 				771: "Fiber",
 				787: "Battery Pack"
 			};
-		
+
 		if (compareSemVer(saveInfo.version, "1.4") >= 0) {
 			meta.recipes[807] = "Dinosaur Mayonnaise";
 			meta.recipes[812] = "Roe";
@@ -2474,7 +2474,7 @@ window.onload = function () {
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePlayerBasicShipping(player, saveInfo, meta) {
 		// Much of the logic was ported from the crafting function which is why the variables are weirdly named
 		var output = '',
@@ -2578,14 +2578,14 @@ window.onload = function () {
 				595: "Fairy Rose",
 				597: "Blue Jazz"
 			};
-			
+
 		table[0] = parsePlayerCropShipping($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerCropShipping, meta);
 		playerOutput += printTranspose(table);
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePlayerCropShipping(player, saveInfo, meta) {
 		// Much of the logic was ported from the crafting function which is why the variables are weirdly named
 		var output = '',
@@ -2655,7 +2655,7 @@ window.onload = function () {
 	}
 
 	function parseSkills(xmlDoc, saveInfo) {
-		var title = 'Skills',
+		var title = 'Навыки',
 			output = '',
 			anchor = makeAnchor(title),
 			version = "1.2",
@@ -2665,17 +2665,17 @@ window.onload = function () {
 			playerOutput = '',
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
-			
-			meta.skills = ["Farming", "Fishing", "Foraging", "Mining", "Combat"],
+
+			meta.skills = ["Фермерство", "Рыбная ловля", "Собирательство", "Горное дело", "Боевые навыки"],
 			meta.next_level = [100,380,770,1300,2150,3300,4800,6900,10000,15000];
-			
+
 		table[0] = parsePlayerSkills($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerSkills, meta);
 		playerOutput += printTranspose(table);
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePlayerSkills(player, saveInfo, meta) {
 		var output = '',
 			xp = {},
@@ -2701,8 +2701,8 @@ window.onload = function () {
 						break;
 					}
 				}
-				need.push('<li>' + wikify(meta.skills[i]) + ' (level ' + level + ') -- need ' + 
-					addCommas(meta.next_level[level] - num) + ' more xp to next level and ' + addCommas(15000 - num) + ' more xp to max</li>\n');
+				need.push('<li>' + wikify(meta.skills[i]) + ' (уровень ' + level + ') - нужно ещё ' +
+					addCommas(meta.next_level[level] - num) + ' опыта до следующего уровня и ' + addCommas(15000 - num) + ' опыта до максимального уровня</li>\n');
 			} else {
 				count++;
 			}
@@ -2721,70 +2721,70 @@ window.onload = function () {
 			case 0:
 			case 1:
 			case 2:
-				title = "Newcomer"; break;
+				title = "Приезжий"; break;
 			case 3:
 			case 4:
-				title = "Greenhorn"; break;
+				title = "Новичок"; break;
 			case 5:
 			case 6:
-				title = "Bumpkin"; break;
+				title = "Деревенский"; break;
 			case 7:
 			case 8:
-				title = "Cowpoke"; break;
+				title = "Пастух"; break;
 			case 9:
 			case 10:
-				title = "Farmhand"; break;
+				title = "Рабочий"; break;
 			case 11:
 			case 12:
-				title = "Tiller"; break;
+				title = "Культиватор"; break;
 			case 13:
 			case 14:
-				title = "Smallholder"; break;
+				title = "Мелкий фермер"; break;
 			case 15:
 			case 16:
-				title = "Sodbuster"; break;
+				title = "Хлебопашец"; break;
 			case 17:
 			case 18:
-				title = "Farm" + (isMale ? "boy" : "girl"); break;
+				title = (isMale ? "Парень" : "Девчонка") + " с фермы"; break;
 			case 19:
 			case 20:
-				title = "Granger"; break;
+				title = "Главный по ферме"; break;
 			case 21:
 			case 22:
-				title = "Planter"; break;
+				title = "Плантатор"; break;
 			case 23:
 			case 24:
-				title = "Rancher"; break;
+				title = "Владелец ранчо"; break;
 			case 25:
 			case 26:
-				title = "Farmer"; break;
+				title = "Фермер"; break;
 			case 27:
 			case 28:
-				title = "Agriculturist"; break;
+				title = "Земледелец"; break;
 			case 29:
-				title = "Cropmaster"; break;
+				title = "Урожайных дел мастер"; break;
 			default:
-				title = "Farm King";
+				title = "Король Фермы";
 		}
-				
+
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + saveInfo.players[umid] +
-			' is <a href="https://stardewvalleywiki.com/Skills#Skill-Based_Title">Farmer Level</a> ' + pt_level + 
-			' with title ' + title + '.' + pt_pct + '</span><br />';
-		output += '<span class="result">' + saveInfo.players[umid] + ' has reached level 10 in ' + count + 
-			' of 5 skills.</span><br />';
+			' на ' + pt_level + ' <a href="https://ru.stardewvalleywiki.com/Навыки#Звание">уровне фермерства</a> ' +
+			' со званием ' + title + '.' + pt_pct + '</span><br />';
+		output += '<span class="result">' + saveInfo.players[umid] + ' достиг 10 уровня в ' + count +
+			' из 5 навыков.</span><br />';
 		output += '<ul class="ach_list"><li>';
-		output += (count >= 1) ? getAchieveString('Singular Talent', 'level 10 in a skill', 1) :
-				getAchieveString('Singular Talent', 'level 10 in a skill', 0) + (1 - count) + ' more';
+		output += (count >= 1) ? getAchieveString('Единственный талант', 'Улучшить навык до 10-го уровня', 1) :
+				getAchieveString('Единственный талант', 'Улучшить навык до 10-го уровня', 0, true) + (1 - count);
 		output += '</li>\n<li>';
-		output += (count >= 5) ? getAchieveString('Master of the Five Ways', 'level 10 in every skill', 1) :
-				getAchieveString('Master of the Five Ways', 'level 10 in every skill', 0) + (5 - count) + ' more';
+		output += (count >= 5) ? getAchieveString('Мастер пяти путей', 'Улучшить все навыки до 10-го уровня', 1) :
+				getAchieveString('Мастер пяти путей', 'Улучшить все навыки до 10-го уровня', 0, true) + (5 - count);
 		output += '</li></ul></div>';
 
 		if (need.length > 0) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-			output += '<span class="need">Skills left:<ol>' + need.sort().join('') + '</ol></span></div>';
+			output += '<span class="need">Оставшиеся навыки:<ol>' + need.sort().join('') + '</ol></span></div>';
 		}
 		return [output];
 	}
@@ -2800,7 +2800,7 @@ window.onload = function () {
 			playerOutput = '',
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
-			
+
 			meta.skills = ["Farming", "Fishing", "Foraging", "Mining", "Combat"];
 			meta.nextLevel = [0, 10000, 25000, 45000, 70000, 100000];
 
@@ -2813,7 +2813,7 @@ window.onload = function () {
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePlayerSkillMastery(player, saveInfo, meta) {
 		var output = '',
 			xp = {},
@@ -2827,7 +2827,7 @@ window.onload = function () {
 			masteryNextXP,
 			unchosen = 0,
 			needPerk = [];
-		
+
 		if (saveInfo.data[umid].stats.hasOwnProperty("MasteryExp")) {
 			masteryXP = saveInfo.data[umid].stats.MasteryExp;
 		}
@@ -2854,7 +2854,7 @@ window.onload = function () {
 		if (masteryNextLvl > perkCount + 1) {
 			unchosen = masteryNextLvl - perkCount - 1;
 		}
-		
+
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + saveInfo.players[umid] + ' has maxed ' + maxCount + ' of ' + meta.skills.length + ' skills.</span><br />';
 		output += '<ul class="ach_list"><li>\n';
@@ -2872,7 +2872,7 @@ window.onload = function () {
 				getMilestoneString('Acquire all mastery perks', 0) + (meta.skills.length - perkCount) + ' more';
 		output += (perkCount < 5 && unchosen > 0) ? ' including ' + unchosen + ' available but unselected.' : '.';
 		output += '</li></ul></div>';
-		
+
 		if (needPerk.length > 0) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
@@ -2892,7 +2892,7 @@ window.onload = function () {
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [],
 			museum = $(xmlDoc).find("locations > GameLocation[" + saveInfo.ns_prefix + "\\:type='LibraryMuseum']");
-			
+
 			meta.artifacts = {
 				96: "Dwarf Scroll I",
 				97: "Dwarf Scroll II",
@@ -2993,7 +2993,7 @@ window.onload = function () {
 				578: "Star Shards"
 			};
 			meta.donated = {};
-			
+
 			var	artifact_count = Object.keys(meta.artifacts).length,
 			mineral_count = Object.keys(meta.minerals).length,
 			donated_count = 0,
@@ -3032,7 +3032,7 @@ window.onload = function () {
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
 			output += '<span class="need">See below for items left to donate</span><br /><br /></div>';
 		}
-		
+
 		table[0] = parsePlayerMuseum($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerMuseum, meta);
 		playerOutput += printTranspose(table);
@@ -3055,7 +3055,7 @@ window.onload = function () {
 			id,
 			r,
 			farmer = $(player).children('name').html();
-	
+
 		$(player).find('archaeologyFound > item').each(function () {
 			var id = $(this).find('key > *').text(),
 				num = Number($(this).find('value > ArrayOfInt > int').first().text());
@@ -3128,7 +3128,7 @@ window.onload = function () {
 			}
 			output += '</ul></span></div>';
 		}
-		
+
 		return [output];
 	}
 
@@ -3238,7 +3238,7 @@ window.onload = function () {
 			mineLevel = Number($(player).children('deepestMineLevel').text()),
 			hasSkullKey = $(player).children('hasSkullKey').text(),
 			farmer = $(player).children('name').html();
-			
+
 		// Have seen some inconsitencies in multiplayer, so will use presence of skull key to override the level & bump it to 120.
 		if (hasSkullKey === 'true') {
 			mineLevel = Math.max(120, mineLevel);
@@ -3271,7 +3271,7 @@ window.onload = function () {
 					' more monsters';
 			output += '</li></ul></div>';
 		}
-		
+
 		if (compareSemVer(saveInfo.version, "1.3") >= 0) {
 			stats = $(player).find('stats > specificMonstersKilled');
 		} else {
@@ -3336,7 +3336,7 @@ window.onload = function () {
 			playerOutput = '',
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
-			
+
 		table[0] = parsePlayerQuests($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerQuests, meta);
 		playerOutput += printTranspose(table);
@@ -3390,7 +3390,7 @@ window.onload = function () {
 				'CF_Fish': 'Mailed by Willy after Master Angler achievement.',
 				'museumComplete': 'Reward for completing the Museum collection.'
 			};
-			
+
 		table[0] = parsePlayerStardrops($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerStardrops, meta);
 		playerOutput += printTranspose(table);
@@ -3486,7 +3486,7 @@ window.onload = function () {
 								Number($(xmlDoc).find('player > fishingLevel').text()) +
 								Number($(xmlDoc).find('player > luckLevel').text())),
 			playerLevel = realPlayerLevel / 2;
-			
+
 		// 1.6 removed the old stats for rusty and skull keys and instead has some mail flags
 		if (compareSemVer(saveInfo.version, "1.6") >= 0) {
 			if (saveInfo.data[saveInfo.farmerId].mailReceived.hasOwnProperty("HasRustyKey")) {
@@ -3498,7 +3498,7 @@ window.onload = function () {
 		} else {
 			hasRustyKey = $(xmlDoc).find('player > hasRustyKey').text();
 			hasSkullKey = $(xmlDoc).find('player > hasSkullKey').text();
-		}			
+		}
 
 		// Pre-calculating totals to put summary info up top.
 		if (money >= 1e6) {
@@ -3552,7 +3552,7 @@ window.onload = function () {
 			if (saveInfo.partners.hasOwnProperty(uid)) {
 				spouse = saveInfo.players[saveInfo.partners[uid]];
 			}
-		}			
+		}
 		if (spouse.length > 0 && houseUpgrades >= 2) {
 			count++;
 		}
@@ -3590,7 +3590,7 @@ window.onload = function () {
 		if (compareSemVer(saveInfo.version, "1.6") >= 0) {
 			if (saveInfo.data[saveInfo.farmerId].mailReceived.hasOwnProperty("petLoveMessage")) {
 				petLove = 1000;
-			}			
+			}
 		}
 		if (petLove >= 999) {
 			count++;
@@ -3735,7 +3735,7 @@ window.onload = function () {
 				getPointString(1, 'get the Skull Key', 0, 0) + ' -- acquired on level 120 of the mines';
 		output += '</li></ul></div>';
 		output += getSectionFooter();
-		
+
 		return output;
 	}
 
@@ -3764,7 +3764,7 @@ window.onload = function () {
 				var bundleName = vFields[0];
 				var itemData = vFields[2].split(' ');
 				var qty = vFields[4];
-				
+
 				if (!output.hasOwnProperty(meta.roomID[room])) {
 					output[meta.roomID[room]] = { 'name': room, 'bundles': {} };
 				}
@@ -3928,7 +3928,7 @@ window.onload = function () {
 		if (saveInfo.data[saveInfo.farmerId].eventsSeen.hasOwnProperty(eventToCheck)) {
 			hasSeenCeremony = true;
 		}
-		
+
 		output += '<div class="' + anchor + '_summary ' + sum_class + '">';
 		// New information from Gigafreak#4754 on Discord confirms that the Joja achieve does trigger even if
 		// most of the CC was completed through bundles. So warnings are removed and Joja will not be marked
@@ -4038,11 +4038,11 @@ window.onload = function () {
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
 			meta.hasStoneJunimo = false;
-		
+
 		if (compareSemVer(saveInfo.version, "1.3") < 0) {
 			return '';
 		}
-		
+
 		// Stone Junimo is a giant pain in the ass. It seems to not have any confirmation so we have to search
 		// the entire save for it. Worse, the buried one may reappear later so we need to ignore that one when
 		// searching. The buried one is at (57, 16) on the Town map.
@@ -4072,7 +4072,7 @@ window.onload = function () {
 				}
 			});
 		}
-		
+
 		table[0] = parsePlayerSecretNotes($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerSecretNotes, meta);
 		playerOutput += printTranspose(table);
@@ -4123,12 +4123,12 @@ window.onload = function () {
 			rewards[23] = true;
 			found_rewards++;
 		}
-		
+
 		var rewardMail = {
 			'gotPearl': 15,
 			'junimoPlush': 13,
 			// Qi quest we just check for the start. Full completion is 'TH_Lumberpile'
-			'TH_Tunnel': 22, 
+			'TH_Tunnel': 22,
 			'carolinesNecklace': 25,
 			'SecretNote16_done': 16,
 			'SecretNote17_done': 17,
@@ -4136,7 +4136,7 @@ window.onload = function () {
 			'SecretNote19_done': 19,
 			'SecretNote20_done': 20,
 			'secretNote21_done': 21,
-		};		
+		};
 		Object.keys(rewardMail).forEach(function(id) {
 			if (saveInfo.data[umid].mailReceived.hasOwnProperty(id)) {
 				rewards[rewardMail[id]] = true;
@@ -4153,7 +4153,7 @@ window.onload = function () {
 			rewards[14] = true;
 			found_rewards++;
 		}
-		
+
 		// Check Krobus event, then check for magnifier, then check number of notes
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + farmer + ' has ' + (hasSeenKrobus ? '' : 'not ') + ' seen the Shadow Guy at the Bus Stop.</span><br />\n';
@@ -4231,11 +4231,11 @@ window.onload = function () {
 			playerOutput = '',
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
-		
+
 		if (compareSemVer(saveInfo.version, version) < 0) {
 			return '';
 		}
-		
+
 		table[0] = parsePlayerJournalScraps($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
 		parseFarmhands(xmlDoc, saveInfo, table, parsePlayerJournalScraps, meta);
 		playerOutput += printTranspose(table);
@@ -4262,8 +4262,8 @@ window.onload = function () {
 		var rewardMail = {
 			'Island_W_BuriedTreasure2': 1006,
 			'Island_W_BuriedTreasure': 1004,
-			'Island_N_BuriedTreasure': 1010, 
-		};		
+			'Island_N_BuriedTreasure': 1010,
+		};
 		Object.keys(rewardMail).forEach(function(id) {
 			if (saveInfo.data[umid].mailReceived.hasOwnProperty(id)) {
 				rewards[rewardMail[id]] = true;
@@ -4273,7 +4273,7 @@ window.onload = function () {
 		if (saveInfo.data[umid].mailReceived.hasOwnProperty('Visited_Island')) {
 			hasVisitedIsland = true;
 		}
-		
+
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + farmer + ' has ' + (hasVisitedIsland ? '' : 'not ') + ' visited the Island.</span><br />\n';
 		output += '<ul class="ach_list"><li>';
@@ -4364,14 +4364,14 @@ window.onload = function () {
 			town_count = Object.keys(town).length,
 			qi = { "QiChallenge2": "Qi's Crop", "QiChallenge3": "Let's Play A Game", "QiChallenge4": "Four Precious Stones", "QiChallenge5": "Qi's Hungry Challenge", "QiChallenge6": "Qi's Cuisine", "QiChallenge7": "Qi's Kindness", "QiChallenge8": "Extended Family", "QiChallenge9": "Danger In The Deep", "QiChallenge10": "Skull Cavern Invasion", "QiChallenge12": "Qi's Prismatic Grange" },
 			id;
-		
+
 		if (compareSemVer(saveInfo.version, version) < 0) {
 			return '';
 		}
-		
+
 		$(xmlDoc).find('completedSpecialOrders > string').each(function () {
 			id = $(this).text();
-			
+
 			if (town.hasOwnProperty(id)) {
 				found[id] = true;
 				found_count++;
@@ -4441,7 +4441,7 @@ window.onload = function () {
 				"Bush_IslandNorth_47_40": { 'num':1, 'name':'Island North Bush', 'hint':'Grassy area above Field Office (47,40)' },
 				"Bush_IslandNorth_13_33": { 'num':1, 'name':'Island North Bush', 'hint':'Along river accessed via secret passage from Volcano entrance (13,33)' },
 				"Bush_IslandNorth_5_30": { 'num':1, 'name':'Island North Bush', 'hint':'Along river accessed via secret passage from Volcano entrance (5,39)' },
-				
+
 				"Bush_Caldera_28_36": { 'num':1, 'name':'Volcano Caldera Bush', 'hint':'Along Southern edge (28,36)' },
 				"Bush_Caldera_9_34": { 'num':1, 'name':'Volcano Caldera Bush', 'hint':'Along Southern edge (9,34)' },
 				"Bush_CaptainRoom_2_4": { 'num':1, 'name':'Island West Shipwreck Bush', 'hint':'Shipwreck is enterable from left side (2,4)' },
@@ -4512,7 +4512,7 @@ window.onload = function () {
 		if (compareSemVer(saveInfo.version, version) < 0) {
 			return '';
 		}
-		
+
 		// These are shared in multiplayer so do not need any parsePlayer subroutines
 		var gcc = $(xmlDoc).find('SaveGame > goldenCoconutCracked').text();
 		if (gcc === "true") {
@@ -4521,7 +4521,7 @@ window.onload = function () {
 		}
 		$(xmlDoc).find('collectedNutTracker > string').each(function () {
 			id = $(this).text();
-			
+
 			if (trackerAllAtOnce.hasOwnProperty(id)) {
 				found[id] = trackerAllAtOnce[id].num;
 				found_count += trackerAllAtOnce[id].num;
@@ -4532,12 +4532,12 @@ window.onload = function () {
 			num = Number($(this).find('value > int').text());
 			// Using the Joja Golden Parrot sets a lot of these to 9999
 			if (trackerLimited.hasOwnProperty(id) && num > 0) {
-				var n = Math.min(num, trackerLimited[id].num); 
+				var n = Math.min(num, trackerLimited[id].num);
 				found[id] = n;
 				found_count += n;
 			}
 		});
-		
+
 		for (id in trackerAllAtOnce) {
 			if (trackerAllAtOnce.hasOwnProperty(id)) {
 				count += trackerAllAtOnce[id].num;
@@ -4566,7 +4566,7 @@ window.onload = function () {
 				}
 			}
 		}
-		
+
 		// The game_count vs found_count discrepancy should only happen through mods or cheating, but we will account for it
 		// Most goals will use game_count except for the "collect all" milestone since we can still list unfound ones after.
 		saveInfo.perfectionTracker[umid]["Walnuts"] = { 'count' : game_count, 'total' : count };
@@ -4625,7 +4625,7 @@ window.onload = function () {
 				if (need[id] > 1) {
 					extra = " -- " + need[id] + " walnuts";
 				}
-				
+
 				if (trackerAllAtOnce.hasOwnProperty(id)) {
 					output += trackerAllAtOnce[id].name + extra;
 					if (trackerAllAtOnce[id].hint !== '') {
@@ -4707,9 +4707,9 @@ window.onload = function () {
 			} else {
 				need[id] = upgrades[id].cost;
 				cost += upgrades[id].cost;
-			}				
+			}
 		});
-		
+
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		var intro;
 		if (saveInfo.numPlayers > 1) {
@@ -4736,7 +4736,7 @@ window.onload = function () {
 				if (need[id] > 1) {
 					extra = " -- costs " + need[id] + " walnuts";
 				}
-				output += '<li>' + upgrades[id].name + extra + '</li>';				
+				output += '<li>' + upgrades[id].name + extra + '</li>';
 			}
 			output += '</ol></span></div>';
 		}
@@ -4744,7 +4744,7 @@ window.onload = function () {
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + output + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePerfectionTracker(xmlDoc, saveInfo) {
 		// Scoring details from Utility.percentGameComplete()
 		var title = 'Perfection Tracker',
@@ -4812,9 +4812,9 @@ window.onload = function () {
 				}
 			});
 		});
-		
+
 		pt_pct = numObelisks + (saveInfo.perfectionTracker.global["Gold Clock"] ? 10 : 0) +
-			(pct["Monsters"] ? 10 : 0) + (pct["Stardrops"] ? 10 : 0) + 
+			(pct["Monsters"] ? 10 : 0) + (pct["Stardrops"] ? 10 : 0) +
 			15 * pct["Shipping"] + 11 * pct["Great Friends"] + 10 * pct["Cooking"] + 10 * pct["Crafting"] + 10 * pct["Fishing"] +
 			5 * pct["Walnuts"]  + 5 * pct["Skills"];
 		0;
@@ -4823,7 +4823,7 @@ window.onload = function () {
 		adj_pct = adj_pct.toFixed( (adj_pct < 100) ? 1 : 0 );
 		pt_pct = pt_pct.toFixed( (pt_pct < 100) ? 1 : 0 );
 		left = left.toFixed( (left < 100) ? 1 : 0 );
-		
+
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + 'Inhabitants of ' + saveInfo.farmName + ' Farm have earned ' + adj_pct + '% Total Perfection (details below).</span>';
 		output += '<br/><span class="result">Note that the Walnut Room display always rounds down and will show: ' + Math.floor(pt_pct) +
@@ -4874,7 +4874,7 @@ window.onload = function () {
 		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + output + getSectionFooter();
 		return output;
 	}
-	
+
 	function parsePlayerPerfection(player, saveInfo, meta) {
 		var output = '',
 			table = [],
@@ -4902,16 +4902,16 @@ window.onload = function () {
 			"Skills": Math.min(saveInfo.perfectionTracker[umid]["Skills"].count / saveInfo.perfectionTracker[umid]["Skills"].total, 1)
 		};
 		numObelisks = Math.min(numObelisks, 4);
-		
+
 		pt_pct = numObelisks + (saveInfo.perfectionTracker.global["Gold Clock"] ? 10 : 0) +
-			(saveInfo.perfectionTracker[umid]["Monsters"] ? 10 : 0) + (saveInfo.perfectionTracker[umid]["Stardrops"] ? 10 : 0) + 
+			(saveInfo.perfectionTracker[umid]["Monsters"] ? 10 : 0) + (saveInfo.perfectionTracker[umid]["Stardrops"] ? 10 : 0) +
 			15 * pct["Shipping"] + 11 * pct["Great Friends"] + 10 * pct["Cooking"] + 10 * pct["Crafting"] + 10 * pct["Fishing"] +
 			5 * pct["Walnuts"]  + 5 * pct["Skills"];
-		0;	
+		0;
 		pt_pct = pt_pct.toFixed( (pt_pct < 100) ? 1 : 0 );
 		left = 100 - pt_pct;
 		left = left.toFixed( (left < 100) ? 1 : 0 );
-		
+
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + farmer + ' has ' + pt_pct + '% Total Completion (details below).</span>';
 		output += '<ul class="ach_list"><li>';
@@ -5033,7 +5033,7 @@ window.onload = function () {
 				'PLAYER_STAT': 'stats',
 				'PLAYER_HAS_FLAG': 'mailReceived',
 			};
-			
+
 		if (compareSemVer(saveInfo.version, version) < 0) {
 			return '';
 		}
@@ -5079,7 +5079,7 @@ window.onload = function () {
 					txt = meta.translate[k];
 				} else if (saveInfo.objects.hasOwnProperty(k)) {
 					txt = saveInfo.objects[k];
-				} 
+				}
 				need.push('<li><span class="booktitle">' + txt + '</span></li>');
 			}
 		});
@@ -5104,11 +5104,11 @@ window.onload = function () {
 					txt = meta.translate[k];
 				} else if (saveInfo.objects.hasOwnProperty(k)) {
 					txt = saveInfo.objects[k];
-				} 
+				}
 				need.push('<li>' + txt + '</li>');
 			}
 		});
-		
+
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
 		output += '<span class="result">' + saveInfo.players[umid] + ' has read ' + have_book +
 				' of ' + book_count + ' books.</span><br />\n';
@@ -5278,7 +5278,7 @@ window.onload = function () {
 			daysSinceFed = saveInfo.data[saveInfo.farmerId].stats["daysPlayed"] - lastFed,
 			checkBundles = false,
 			id;
-		
+
 		if (compareSemVer(saveInfo.version, version) < 0) {
 			return '';
 		}
@@ -5290,7 +5290,7 @@ window.onload = function () {
 			checkBundles = true;
 		} else if (saveInfo.data[saveInfo.farmerId].mailReceived.hasOwnProperty("raccoonTreeFallen")) {
 			intro = "The big tree in the forest has fallen and repairs may be needed.";
-		} else if (saveInfo.data[saveInfo.farmerId].mailReceived.hasOwnProperty('ccPantry') || 
+		} else if (saveInfo.data[saveInfo.farmerId].mailReceived.hasOwnProperty('ccPantry') ||
 				saveInfo.data[saveInfo.farmerId].mailReceived.hasOwnProperty('jojaPantry')) {
 			intro = "The Greenhouse has been repaired. Where did that raccoon go?";
 		} else {
@@ -5348,7 +5348,7 @@ window.onload = function () {
 			}
 		});
 	}
-	
+
 	function createPlayerList(numPlayers, farmer, farmhands) {
 		var width = Math.floor(100 / (1 + numPlayers)),
 			i,
@@ -5460,7 +5460,7 @@ window.onload = function () {
 				$('#TOC').show();
 			} catch(error) {
 				var message = "<h3>Save Parse Error</h3><p>The app was unable to process the save file. This is most likely a bug with the app, so please let the dev know about it. Details below.</p>";
-				$('#parse-error').html(message + '<p class="code">' + error + '<br/>' + error.stack + '</p>');				
+				$('#parse-error').html(message + '<p class="code">' + error + '<br/>' + error.stack + '</p>');
 			}
 		};
 		reader.readAsText(file);
@@ -5476,7 +5476,7 @@ window.onload = function () {
 			$(t).html("Hide Details");
 		}
 */
-	
+
 	function toggleVisible(evt) {
 		var e = evt.target;
 		var text = $(e).html();
@@ -5491,7 +5491,7 @@ window.onload = function () {
 			}
 		});
 	}
-	
+
 	// At this point, this will only affect changelog
 	$('.collapsible').each(function() {
 		$(this).children('button').click(toggleVisible);
