@@ -202,18 +202,18 @@ window.onload = function () {
 		var sum_button, sum_class, det_button, det_class;
 
 		if (prefs === 'show_all' || prefs === 'hide_details') {
-			sum_button = "Hide Summary";
+			sum_button = "Скрыть сводку";
 		} else {
-			sum_button = "Show Summary";
+			sum_button = "Показать сводку";
 		}			
 		if (prefs === 'hide_all' || prefs === 'hide_details') {
-			det_button = "Show Details";
+			det_button = "Показать подробности";
 		} else {
-			det_button = "Hide Details";
+			det_button = "Скрыть подробности";
 		}			
 
 		// Supporting sections that don't have details also should not have the button. We'll leave the empty div alone
-		var button_element = "(No Details)";
+		var button_element = "(Подробностей нет)";
 		if (showDetailsButton) {
 			button_element = '<button id="toggle_' + anchor + '_details" type="button" data-target="' + anchor + '_details">' + det_button + '</button>';
 		}
