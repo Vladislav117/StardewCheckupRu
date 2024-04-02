@@ -43,12 +43,13 @@ window.onload = function () {
 		return 0;
 	}
 
-	function getAchieveString(name, desc, yes) {
+	function getAchieveString(name, desc, yes, more) {
+		if (more === null) more = false;
 		if (desc.length > 0) {
 			desc = '(' + desc + ') ';
 		}
-		return (yes) ? '<span class="ach_yes"><span class="ach">' + name + '</span> ' + desc + ' achieved</span>' :
-					'<span class="ach_no"><span class="ach">' + name + '</span> ' + desc + '</span> -- need ';
+		return (yes) ? '<span class="ach_yes"><span class="ach">' + name + '</span> ' + desc + ' получено</span>' :
+					'<span class="ach_no"><span class="ach">' + name + '</span> ' + desc + '</span> - нужно ' + (more ? 'ещё ' : '');
 	}
 
 	function getAchieveImpossibleString(name, desc) {
@@ -341,7 +342,7 @@ window.onload = function () {
 			saveInfo.children[id].push($(this).find('name').html());
 		});
 		if (saveInfo.numPlayers > 1) {
-			output += ' and Farmhand(s) ' + farmhands.join(', ');
+			output += ' в компании с ' + farmhands.join(', ');
 			createPlayerList(saveInfo.numPlayers, farmer, farmhands);
 		}
 		output += '</span><br />';
@@ -1068,7 +1069,7 @@ window.onload = function () {
 	}
 
 	function parseMoney(xmlDoc, saveInfo) {
-		var title = 'Money',
+		var title = 'Деньги',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -1083,38 +1084,38 @@ window.onload = function () {
 
 		// Money earned achievements appear to be relative to the farm even with split money in MP.
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + $(xmlDoc).find('SaveGame > player > farmName').html() + ' Farm has earned ' +
-			addCommas(money) + 'g.</span><br />\n';
+		output += '<span class="result">Ферма ' + $(xmlDoc).find('SaveGame > player > farmName').html() + ' заработала ' +
+			addCommas(money) + 'з.</span><br />\n';
 		output += '<ul class="ach_list"><li>';
-		output += (money >= 15e3) ? getAchieveString('Greenhorn', 'earn 15,000g', 1) :
-				getAchieveString('Greenhorn', 'earn 15,000g', 0) + addCommas(15e3 - money) + 'g more';
+		output += (money >= 15e3) ? getAchieveString('Новичок', 'заработать 15,000 з.', 1) :
+				getAchieveString('Новичок', 'заработать 15,000 з.', 0, true) + addCommas(15e3 - money) + ' з.';
 		output += '</li>\n<li>';
-		output += (money >= 5e4) ? getAchieveString('Cowpoke', 'earn 50,000g', 1) :
-				getAchieveString('Cowpoke', 'earn 50,000g', 0) + addCommas(5e4 - money) + 'g more';
+		output += (money >= 5e4) ? getAchieveString('Ковбой', 'заработать 50,000 з.', 1) :
+				getAchieveString('Ковбой', 'заработать 50,000 з.', 0, true) + addCommas(5e4 - money) + ' з.';
 		output += '</li>\n<li>';
-		output += (money >= 25e4) ? getAchieveString('Homesteader', 'earn 250,000g', 1) :
-				getAchieveString('Homesteader', 'earn 250,000g', 0) + addCommas(25e4 - money) + 'g more';
+		output += (money >= 25e4) ? getAchieveString('Поселенец', 'заработать 250,000 з.', 1) :
+				getAchieveString('Поселенец', 'заработать 250,000 з.', 0, true) + addCommas(25e4 - money) + ' з.';
 		output += '</li>\n<li>';
-		output += (money >= 1e6) ? getAchieveString('Millionaire', 'earn 1,000,000g', 1) :
-				getAchieveString('Millionaire', 'earn 1,000,000g', 0) + addCommas(1e6 - money) + 'g more';
+		output += (money >= 1e6) ? getAchieveString('Миллионер', 'заработать 1,000,000 з.', 1) :
+				getAchieveString('Миллионер', 'заработать 1,000,000 з.', 0, true) + addCommas(1e6 - money) + ' з.';
 		output += '</li>\n<li>';
-		output += (money >= 1e7) ? getAchieveString('Legend', 'earn 10,000,000g', 1) :
-				getAchieveString('Legend', 'earn 10,000,000g', 0) + addCommas(1e7 - money) + 'g more';
+		output += (money >= 1e7) ? getAchieveString('Легенда', 'заработать 10,000,000 з.', 1) :
+				getAchieveString('Легенда', 'заработать 10,000,000 з.', 0, true) + addCommas(1e7 - money) + ' з.';
 		output += '</li></ul></div>';
 		
 		if (separateWallets) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-			output += '<span class="result">Earnings Breakdown:</span><ul class="outer">';
+			output += '<span class="result">Разделённые доходы:</span><ul class="outer">';
 			Object.keys(saveInfo.players).forEach(function(id) {
 				var m = saveInfo.data[id].stats.individualMoneyEarned || 0;
-				output += '<li>' + addCommas(m) + 'g earned by ' + saveInfo.players[id] + '</li>';
+				output += '<li>' + addCommas(m) + ' з. заработано ' + saveInfo.players[id] + '</li>';
 				left -= m;
 			});
 			if (left > 0) {
-				output += '<li>(' + addCommas(left) + 'g surplus unexplained)</li>';
+				output += '<li>(' + addCommas(left) + ' з. неизвестного дохода)</li>';
 			} else if (left < 0) {
-				output += '<li>(' + addCommas(0-left) + 'g deficit unexplained)</li>';
+				output += '<li>(' + addCommas(0-left) + 'з. неизвестной нехватки)</li>';
 			}
 			output += '</ul></div>'
 		}
