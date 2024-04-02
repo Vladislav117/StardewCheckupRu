@@ -59,9 +59,10 @@ window.onload = function () {
 		return '<span class="ach_imp"><span class="ach">' + name + '</span> ' + desc + ' impossible</span>';
 	}
 
-	function getMilestoneString(desc, yes) {
+	function getMilestoneString(desc, yes, more) {
+		if (more === null) more = false;
 		return (yes) ? '<span class="ms_yes">' + desc + '</span>' :
-					'<span class="ms_no">' + desc + '</span> -- need ';
+					'<span class="ms_no">' + desc + '</span> - нужно ' + (more ? 'ещё ' : '');
 	}
 
 	function getPointString(pts, desc, cum, yes) {
@@ -2790,7 +2791,7 @@ window.onload = function () {
 	}
 
 	function parseSkillMastery(xmlDoc, saveInfo) {
-		var title = 'Skill Mastery',
+		var title = 'Мастерство',
 			output = '',
 			anchor = makeAnchor(title),
 			version = "1.6",
@@ -2801,7 +2802,7 @@ window.onload = function () {
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
 
-			meta.skills = ["Farming", "Fishing", "Foraging", "Mining", "Combat"];
+			meta.skills = ["Фермерство", "Рыбная ловля", "Собирательство", "Горное дело", "Боевые навыки"];
 			meta.nextLevel = [0, 10000, 25000, 45000, 70000, 100000];
 
 		if (compareSemVer(saveInfo.version, version) < 0) {
@@ -2856,27 +2857,27 @@ window.onload = function () {
 		}
 
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + saveInfo.players[umid] + ' has maxed ' + maxCount + ' of ' + meta.skills.length + ' skills.</span><br />';
+		output += '<span class="result">' + saveInfo.players[umid] + ' прокачал до максмума ' + maxCount + ' из ' + meta.skills.length + ' навыков.</span><br />';
 		output += '<ul class="ach_list"><li>\n';
-		output += (maxCount >= 5) ? getMilestoneString('Gain access to the Mastery Cave', 1) :
-				getMilestoneString('Gain access to the Mastery Cave', 0) + (meta.skills.length - maxCount) +
-				' more maxed skills -- <a href="#sec_Skills">see above for needs</a>';
+		output += (maxCount >= 5) ? getMilestoneString('Получить доступ к пещере мастерства', 1) :
+				getMilestoneString('Получить доступ к пещере мастерства', 0, true) + (meta.skills.length - maxCount) +
+				' прокачанных до максимума навыков - <a href="#sec_Skills">подробности выше</a>';
 		output += '</li></ul><span class="result">' + saveInfo.players[umid] + ' has ' + addCommas(masteryXP) + ' mastery xp.</span><br />';
 		output += '<ul class="ach_list"><li>\n';
-		output += (masteryXP >= 100000) ? getMilestoneString('Reach 100,000 mastery xp', 1) :
-				getMilestoneString('Reach 100,000 mastery xp', 0) + addCommas(masteryNextXP - masteryXP) + ' more xp for next perk unlock and ' +
-				addCommas(100000 - masteryXP) + ' more xp overall';
-		output += '</li></ul><span class="result">' + saveInfo.players[umid] + ' has selected ' + perkCount + ' of ' + meta.skills.length + ' mastery perks.</span><br />';
+		output += (masteryXP >= 100000) ? getMilestoneString('Получить 100,000 опыта мастерства', 1) :
+				getMilestoneString('Получить 100,000 опыта мастерства', 0, true) + addCommas(masteryNextXP - masteryXP) + ' опыта для открытия следующего бонуса и ' +
+				addCommas(100000 - masteryXP) + ' опыта до максимума';
+		output += '</li></ul><span class="result">' + saveInfo.players[umid] + ' получил ' + perkCount + ' из ' + meta.skills.length + ' бонусов мастерства.</span><br />';
 		output += '<ul class="ach_list"><li>\n';
-		output += (perkCount >= 5) ? getMilestoneString('Acquire all mastery perks', 1) :
-				getMilestoneString('Acquire all mastery perks', 0) + (meta.skills.length - perkCount) + ' more';
-		output += (perkCount < 5 && unchosen > 0) ? ' including ' + unchosen + ' available but unselected.' : '.';
+		output += (perkCount >= 5) ? getMilestoneString('Получить все бонусы мастерства', 1) :
+				getMilestoneString('Получить все бонусы мастерства', 0, true) + (meta.skills.length - perkCount);
+		output += (perkCount < 5 && unchosen > 0) ? ' включая ' + unchosen + ' доступных, но не полученных.' : '.';
 		output += '</li></ul></div>';
 
 		if (needPerk.length > 0) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-			output += '<span class="need">Perks left:<ol>' + needPerk.sort().join('') + '</ol></span></div>';
+			output += '<span class="need">Оставшиеся бонусы:<ol>' + needPerk.sort().join('') + '</ol></span></div>';
 		}
 		return [output];
 	}
@@ -3327,7 +3328,7 @@ window.onload = function () {
 	}
 
 	function parseQuests(xmlDoc, saveInfo) {
-		var title = 'Quests',
+		var title = 'Задания',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -3358,13 +3359,13 @@ window.onload = function () {
 		}
 
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + $(player).children('name').html() + ' has completed ' + count + ' "Help Wanted" quest(s).</span><br />\n';
+		output += '<span class="result">' + $(player).children('name').html() + ' выполнил ' + count + ' поручений с доски объявлений.</span><br />\n';
 		output += '<ul class="ach_list"><li>';
-		output += (count >= 10) ? getAchieveString('Gofer', 'complete 10 quests', 1) :
-				getAchieveString('Gofer', 'complete 10 quests', 0) + (10 - count) + ' more';
+		output += (count >= 10) ? getAchieveString('Курьер', 'Выполнить 10 поручений с доски объявлений', 1) :
+				getAchieveString('Курьер', 'Выполнить 10 поручений с доски объявлений', 0, true) + (10 - count);
 		output += '</li>\n<li>';
-		output += (count >= 40) ? getAchieveString('A Big Help', 'complete 40 quests', 1) :
-				getAchieveString('A Big Help', 'complete 40 quests', 0) + (40 - count) + ' more';
+		output += (count >= 40) ? getAchieveString('Добрая душа', 'Выполнить 40 поручений с доски объявлений', 1) :
+				getAchieveString('Добрая душа', 'Выполнить 40 поручений с доски объявлений', 0, true) + (40 - count);
 		output += '</li></ul></div>';
 		return [output];
 	}
