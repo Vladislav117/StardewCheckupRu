@@ -244,21 +244,21 @@ window.onload = function () {
 	// saveInfo stores meta information like object ID -> name mappings and also things that we were parsing
 	// way too often such as mail flags and player stats
 	function parseSummary(xmlDoc, saveInfo) {
-		var title = "Summary",
+		var title = "Общая сводка",
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
 			output = '',
 			details = '',
 			farmTypes = {
-				0: 'Standard',
-				1: 'Riverland',
-				2: 'Forest',
-				3: 'Hill-top', 
-				4: 'Wilderness',
-				5: 'Four Corners',
-				6: 'Beach',
-				"MeadowlandsFarm": 'Meadowlands',
+				0: 'Стандартная ферма',
+				1: 'Ферма на реке',
+				2: 'Лесная ферма',
+				3: 'Горная ферма',
+				4: 'Ферма в глуши',
+				5: 'Ферма «Четыре угла»',
+				6: 'Пляжная ферма',
+				"MeadowlandsFarm": 'Луговая ферма',
 			},
 			playTime = Number($(xmlDoc).find('player > millisecondsPlayed').text()),
 			playHr = Math.floor(playTime / 36e5),
@@ -317,9 +317,9 @@ window.onload = function () {
 		
 		output = getSectionHeader(saveInfo, title, anchor, false, version);
 		output += '<div class="' + anchor + '_summary ' + sum_class + '">';
-		output += '<span class="result">' + saveInfo.farmName + ' Farm (' + 
+		output += '<span class="result">Ферма ' + saveInfo.farmName + ' (' +
 			farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />';
-		output += '<span class="result">Farmer ' + farmer ;
+		output += '<span class="result">Фермер ' + farmer ;
 		
 		if (compareSemVer(saveInfo.version, "1.6") >= 0) {
 			farmhandSelector = "farmhands > Farmer";
@@ -987,21 +987,21 @@ window.onload = function () {
 			"Book_Grass": "Ol' Slitherlegs",
 		}
 		// Date originally used XXForSaveGame elements, but those were not always present on saves downloaded from upload.farm
-		output += '<span class="result">Day ' + Number($(xmlDoc).find('dayOfMonth').text()) + ' of ' +
-			capitalize($(xmlDoc).find('currentSeason').html()) + ', Year ' + Number($(xmlDoc).find('year').text()) + '</span><br />';
-		output += '<span class="result">Played for ';
+		output += '<span class="result">День ' + Number($(xmlDoc).find('dayOfMonth').text()) + ', ' +
+			translateSeason($(xmlDoc).find('currentSeason').html()) + ', Год ' + Number($(xmlDoc).find('year').text()) + '</span><br />';
+		output += '<span class="result">Время игры: ';
 		if (playHr === 0 && playMin === 0) {
-			output += "less than 1 minute";
+			output += "менее 1 минуты";
 		} else {
 			if (playHr > 0) {
-				output += playHr + ' hr ';
+				output += playHr + ' ч ';
 			}
 			if (playMin > 0) {
-				output += playMin + ' min ';
+				output += playMin + ' мин';
 			}
 		}
 		output += '</span><br />';
-		output += '<span class="result">Save is from version ' + saveInfo.version + ' ' + saveInfo.versionLabel + '</span><br /></div>';
+		output += '<span class="result">Сохранение с версии ' + saveInfo.version + ' ' + saveInfo.versionLabel + '</span><br /></div>';
 		output += getSectionFooter();
 		return output;
 	}
