@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <title>Stardew Checkup</title>
 
 <meta charset="UTF-8" />
-<meta property="og:title" content="Stardew Checkup" />
-<meta property="og:description" content="An app to read a Stardew Valley save file, check the progress of various achievements and milestones, and list what's missing. " />
-<meta property="og:image" content="https://mouseypounds.github.io/stardew-checkup/og-embed-image.png" />
-<meta property="twitter:image" content="https://mouseypounds.github.io/stardew-checkup/og-embed-image.png" />
+<meta property="og:title" content="Stardew Checkup Ru" />
+<meta property="og:description" content="Приолжение для проверки файла сохранения Stardew Valley, проверяет прогресс различных достижений и этапов, и позволяет узнать, что вы пропустили." />
+<meta property="og:image" content="https://vladislav117.github.io/StardewCheckupRu/og-embed-image.png" />
+<meta property="twitter:image" content="https://vladislav117.github.io/StardewCheckupRu/og-embed-image.png" />
 <meta name="theme-color" content="#ffe0b0">
-<meta name="author" content="MouseyPounds" />
+<meta name="author" content="Vladislav117 (original by MouseyPounds)" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <link rel="stylesheet" type="text/css" href="./stardew-checkup.css" />
@@ -30,34 +30,32 @@
 </div>
 
 <div id="header" class="panel">
-<h1>Stardew Checkup</h1>
-<h2 id="sec_about">About</h2>
-<p>This app checks a <a href="http://stardewvalley.net/">Stardew Valley</a> save file for various achievements and milestones and
-lets you know what is missing. Currently it checks for progress on 46 achievements as well as other progression and completion mechanics including Grandpa's evaluation, Ginger Island upgrades, Perfection, and social relationships.</p>
-<p>Most changed &amp; added content from version 1.6 is supported, and 1.6-specific features should only appear in the results if the save is detected to be from that version. <span class="strong note">If you load a 1.6 save into the app, expect to see spoilers. There is some spoiler protection for major systems by using the Output Preferences to hide some section results, but the titles of the new sections will still be visible and new items will still appear in the details of old sections.</span> </p>
-<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/substack/semver-compare">semver-compare</a> and <a href="https://github.com/js-cookie/js-cookie">Javascript Cookie</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-checkup/">https://mouseypounds.github.io/stardew-checkup/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-checkup">https://github.com/MouseyPounds/stardew-checkup</a>.
-Please report any bugs, suggestions, or other feedback to <a href="https://forums.stardewvalley.net/threads/web-apps-stardew-checkup-predictor-and-fair-helper.28393/">the topic in the Stardew official forums</a> or to <span class="code">@mouseypounds</span> on Discord.</p>
+<h1>Stardew Checkup Ru</h1>
+<h2 id="sec_about">О приложении</h2>
+<p>Это приложение проверяет файл сохранения <a href="http://stardewvalley.net/">Stardew Valley</a> на прохождения различных достижений и этапов, и позволяет узнать, что вы пропустили. На данный момент оно проверяет прогресс 46 достижений, а так же прогресс выполнения других механик, включая Дедушкину оценку, улучшения Имбирного острова, Совершенство, и отношения.</p>
+<p>Поддерживается большинство нового и изменённого контента из версии 1.6, но функции из 1.6 могут отображаться только в том случае, если обнаружено, что сохранение относится к этой версии. <span class="strong note">Если вы загрузили сохранение из 1.6, будьте готовы увидеть спойлеры. Для основного контента предусмотрена некоторая защита, такая как "Настройки вывода", чтобы скрыть результаты некоторых разделов, но заголовки новых разделов будут по-прежнему видны, а новые предметы всё ещё будут появляться в подробностях старых разделов.</span> </p>
+<p>Приложение написано на Javascript и использует <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/substack/semver-compare">semver-compare</a> и <a href="https://github.com/js-cookie/js-cookie">Javascript Cookie</a>; оно расположено на GitHub Pages по ссылке <a href="https://vladislav117.github.io/StardewCheckupRu">https://vladislav117.github.io/StardewCheckupRu</a> и исходный код репозитория расположен на <a href="https://github.com/Vladislav117/StardewCheckupRu">https://github.com/Vladislav117/StardewCheckupRu</a>. Пожалуйста, отправляйте баги, предложения, и прочую обратную связь <span class="code">@vladislav117</span> в Discord.</p>
 </div>
 
 <div id="input-container" class="panel">
-<h2 id="sec_save_file">Choose Save File</h2>
-<p>Select Output Preferences below and then choose your save file. The <span class="note">summary</span> is the part that lists whether or not an achievement / goal has been met and the <span class="note">details</span> are things like the NPC event checklist or full list of still-needed items. <span class="note">New Sections</span> are those which have been added for Stardew 1.6.</p>
+<h2 id="sec_save_file">Выберите файл сохранения</h2>
+<p>Ниже выберите настройки вывода, а затем выберите ваш файл соханения. <span class="note">Сводка</span> - это часть, в которой указывается, было ли достигнуто достижение/цель или нет, <span class="note">подробности</span> - такие вещи, как список необходимых (и оставшихся) предметов или список событий NPC. <span class="note">Новые разделы</span> - это тот контент, который был добавлен в Stardew Valley 1.6.</p>
 <fieldset id="output-prefs-old" class="radio_set">
-<legend>Output Preferences (Old Sections)</legend>
-<label><input type="radio" name="opt-old" value="show_all"> Show summary and details</label><br />
-<label><input type="radio" name="opt-old" value="hide_details" checked="checked"> Show summary but hide details</label><br />
-<label><input type="radio" name="opt-old" value="hide_all"> Hide summary and details</label><br />
+<legend>Настройки вывода (Старые разделы)</legend>
+<label><input type="radio" name="opt-old" value="show_all"> Показать сводку и подробности</label><br />
+<label><input type="radio" name="opt-old" value="hide_details" checked="checked"> Показать сводку, но без подробностей</label><br />
+<label><input type="radio" name="opt-old" value="hide_all"> Скрыть сводку и подробности</label><br />
 </fieldset>
 <fieldset id="output-prefs-new" class="radio_set">
-<legend>Output Preferences (New Sections)</legend>
-<label><input type="radio" name="opt-new" value="show_all"> Show summary and details</label><br />
-<label><input type="radio" name="opt-new" value="hide_details"> Show summary but hide details</label><br />
-<label><input type="radio" name="opt-new" value="hide_all" checked="checked"> Hide summary and details</label><br />
+<legend>Настройки вывода (Новые разделы)</legend>
+<label><input type="radio" name="opt-new" value="show_all"> Показать сводку и подробности</label><br />
+<label><input type="radio" name="opt-new" value="hide_details"> Показать сводку, но без подробностей</label><br />
+<label><input type="radio" name="opt-new" value="hide_all" checked="checked"> Скрыть сводку и подробности</label><br />
 </fieldset>
 
-<p>Select a save file to check: <input type="file" id="file_select" /></p>
-<p>Please use the full save file named with your farmer's name (or farm name) and an ID number (e.g. <span class="path">Fred_148093307</span>); do not use the <span class="path">SaveGameInfo</span> file as it does not contain all the necessary information.
-<p>Default save file locations are:
+<p>Выберите файл сохранения для просмотра: <input type="file" id="file_select" /></p>
+<p>Пожалуйста, использйте полный файл сохранения, называющийся именем вашего фермера (или названием фермы) и номером ID (например <span class="path">Влад_303667139</span>); не используйте файл <span class="path">SaveGameInfo</span>, так как он не содержит всю необходимую информацию.
+<p>Расположения файлов сохранений по умолчанию:
 <ul><li>Windows: <span class="path">%AppData%\StardewValley\Saves\</span></li>
 <li>Mac OSX &amp; Linux: <span class="path">~/.config/StardewValley/Saves/</span></li>
 <li>Proton Steam (Ubuntu): <span class="path">~/.steam/debian-installation/steamapps/compatdata/413150/pfx/drive_c/users/steamuser/AppData/Roaming/StardewValley/Saves/</span></li>
@@ -79,7 +77,7 @@ Please report any bugs, suggestions, or other feedback to <a href="https://forum
 </div>
 
 <div id="changelog" class="panel">
-<noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Checkup will not work without it.</span></noscript>
+<noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Checkup Ru will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
 <li>30 Mar  2024 - v5.0.2 - Finally added slightly more friendly error-handling</li>
@@ -138,11 +136,11 @@ Please report any bugs, suggestions, or other feedback to <a href="https://forum
 </div>
 
 <div id="footer" class="panel">
-Stardew Apps by MouseyPounds: <a href="https://mouseypounds.github.io/stardew-checkup/">Stardew Checkup</a> ||
+Приложения для Stardew Valley от MouseyPounds: <a href="https://mouseypounds.github.io/stardew-checkup/">Stardew Checkup (Original)</a> ||
 <a href="https://mouseypounds.github.io/stardew-predictor/">Stardew Predictor</a> || 
 <a href="https://mouseypounds.github.io/stardew-fair-helper/">Stardew Fair Helper</a>
 <br />
-Other Stardew Valley resources: <a href="http://stardewvalley.net/">Website</a> || 
+Другие ресурсы, посвящённые Stardew Valley: <a href="http://stardewvalley.net/">Website</a> ||
 <a href="http://store.steampowered.com/app/413150/Stardew_Valley/">Steam Page</a> ||
 <a href="https://www.gog.com/game/stardew_valley">GOG Page</a> ||
 <a href="http://www.stardewvalleywiki.com/">Wiki</a> || 
@@ -150,7 +148,7 @@ Other Stardew Valley resources: <a href="http://stardewvalley.net/">Website</a> 
 <a href="https://www.reddit.com/r/StardewValley">Subreddit</a> ||
 <a href="https://discordapp.com/invite/StardewValley">Discord</a>
 <br />
-Stardew Valley is developed by <a href="http://twitter.com/concernedape">ConcernedApe</a> and self-published on most platforms.
+Stardew Valley разработана <a href="http://twitter.com/concernedape">ConcernedApe</a> и самостоятельно публикуется на большинстве платформ.
 </div>
 </body>
 </html>
