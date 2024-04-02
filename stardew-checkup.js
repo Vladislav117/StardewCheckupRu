@@ -3377,7 +3377,7 @@ window.onload = function () {
 	function parseStardrops(xmlDoc, saveInfo) {
 		/* mailReceived identifiers from decompiled source of StardewValley.Utility.foundAllStardrops()
 		 * descriptions are not from anywhere else and are just made up. */
-		var title = 'Stardrops',
+		var title = 'Звёздные капли',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -3387,13 +3387,13 @@ window.onload = function () {
 			meta = { "hasDetails": false, "anchor": anchor, "sum_class": sum_class, "det_class": det_class },
 			table = [];
 			meta.stardrops = {
-				'CF_Fair': 'Purchased at the Fair for 2000 star tokens.',
-				'CF_Mines': 'Found in the chest on mine level 100.',
-				'CF_Spouse': 'Given by NPC spouse at 13.5 hearts (3375 points).',
-				'CF_Sewer': 'Purchased from Krobus in the Sewers for 20,000g.',
-				'CF_Statue': 'Received from Old Master Cannoli in the Secret Woods.',
-				'CF_Fish': 'Mailed by Willy after Master Angler achievement.',
-				'museumComplete': 'Reward for completing the Museum collection.'
+				'CF_Fair': 'Купить за 2000 жетонов на ярмарке долины Стардью.',
+				'CF_Mines': 'Найти в сундуке на 100-м уровне шахты.',
+				'CF_Spouse': 'Получить от супруга/супруги, когда заработаете с ним/ней 13/12 сердечек (3375 очков дружбы).',
+				'CF_Sewer': 'Купить у Кробуса в канализации за 20 000 з.',
+				'CF_Statue': 'Получить у старого мастера Канноли в тайном лесу в обмен на сладкую ягодку.',
+				'CF_Fish': 'Получить в письме от Вилли после получения достижения «Мастер рыбной ловли».',
+				'museumComplete': 'Получить в награду за достижение «Полная коллекция» (отдать в музей все предметы).'
 			};
 
 		table[0] = parsePlayerStardrops($(xmlDoc).find('SaveGame > player'), saveInfo, meta);
@@ -3424,19 +3424,19 @@ window.onload = function () {
 
 		if (compareSemVer(saveInfo.version, "1.5") >= 0) {
 			saveInfo.perfectionTracker[umid]["Stardrops"] = (count >= stardrop_count);
-			pt_pct = getPTLink((count >= stardrop_count) ? "Yes" : "No");
+			pt_pct = getPTLink((count >= stardrop_count) ? "Да" : "Нет");
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + saveInfo.players[umid] + ' has received ' + count +
-				' of ' + stardrop_count + ' stardrops.' + pt_pct + '</span><br />\n';
+		output += '<span class="result">' + saveInfo.players[umid] + ' получил ' + count +
+				' из ' + stardrop_count + ' звёздных капель.' + pt_pct + '</span><br />\n';
 		output += '<ul class="ach_list"><li>';
-		output += (count >= stardrop_count) ? getAchieveString('Mystery Of The Stardrops', 'find every stardrop', 1) :
-				getAchieveString('Mystery Of The Stardrops', 'find every stardrop', 0) + (stardrop_count - count) + ' more';
+		output += (count >= stardrop_count) ? getAchieveString('Загадка падающих звёзд', 'Найти все упавшие звёзды', 1) :
+				getAchieveString('Загадка падающих звёзд', 'Найти все упавшие звёзды', 0, true) + (stardrop_count - count);
 		output += '</li></ul></div>';
 		if (need.length > 0) {
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-			output += '<span class="need">Stardrops left:<ol>' + need.sort().join('') + '</ol></span></div>';
+			output += '<span class="need">Оставшиеся звёздные капли:<ol>' + need.sort().join('') + '</ol></span></div>';
 		}
 		return [output];
 	}
