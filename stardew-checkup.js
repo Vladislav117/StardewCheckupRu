@@ -4349,7 +4349,7 @@ window.onload = function () {
 	}
 
 	function parseSpecialOrders(xmlDoc, saveInfo) {
-		var title = 'Special Orders',
+		var title = 'Особые задания',
 			anchor = makeAnchor(title),
 			version = "1.5",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -4361,9 +4361,9 @@ window.onload = function () {
 			found_count = 0,
 			need = [],
 			hasWalnutRoomAccess = false,
-			town = { "Caroline": "Island Ingredients", "Clint": "Cave Patrol", "Demetrius": "Aquatic Overpopulation", "Demetrius2": "Biome Balance", "Emily": "Rock Rejuvenation", "Evelyn": "Gifts for George", "Gunther": "Fragments of the past", "Gus": "Gus' Famous Omelet", "Lewis": "Crop Order", "Linus": "Community Cleanup", "Pam": "The Strong Stuff", "Pierre": "Pierre's Prime Produce", "Robin": "Robin's Project", "Robin2": "Robin's Resource Rush", "Willy": "Juicy Bugs Wanted!", "Willy2": "Tropical Fish", "Wizard": "A Curious Substance", "Wizard2": "Prismatic Jelly" },
+			town = { "Caroline": "Тропичесике ингредиенты", "Clint": "Пещерный патруль", "Demetrius": "Морское перенаселение", "Demetrius2": "Природный баланс", "Emily": "Самоцветное омолаживание", "Evelyn": "Дары для Джорджа", "Gunther": "Привет из прошлого", "Gus": "Знаменитый омлет Гаса", "Lewis": "Заказ урожая", "Linus": "Субботник", "Pam": "Крепкое пойло", "Pierre": "Премиальные продукты Пьера", "Robin": "Проект Робин", "Robin2": "Охота за материалами Робин", "Willy": "Нужны сочные жуки!", "Willy2": "Тропическая рыбалка", "Wizard": "Любопытная субстанция", "Wizard2": "Радужное желе" },
 			town_count = Object.keys(town).length,
-			qi = { "QiChallenge2": "Qi's Crop", "QiChallenge3": "Let's Play A Game", "QiChallenge4": "Four Precious Stones", "QiChallenge5": "Qi's Hungry Challenge", "QiChallenge6": "Qi's Cuisine", "QiChallenge7": "Qi's Kindness", "QiChallenge8": "Extended Family", "QiChallenge9": "Danger In The Deep", "QiChallenge10": "Skull Cavern Invasion", "QiChallenge12": "Qi's Prismatic Grange" },
+			qi = { "QiChallenge2": "Урожай Ки", "QiChallenge3": "Давай сыграем в игру", "QiChallenge4": "Четыре драгоценных камня", "QiChallenge5": "Ки - испытание голодом", "QiChallenge6": "Кухня Ки", "QiChallenge7": "Доброта Ки", "QiChallenge8": "Прибавление в семье", "QiChallenge9": "Опасности на глубине", "QiChallenge10": "Захват Пещеры Черепа", "QiChallenge12": "Радужный сбор Ки" },
 			id;
 
 		if (compareSemVer(saveInfo.version, version) < 0) {
@@ -4381,27 +4381,27 @@ window.onload = function () {
 
 		var intro;
 		if (saveInfo.numPlayers > 1) {
-			intro = 'Inhabitants of ' + saveInfo.farmName + ' Farm have';
+			intro = 'Фермеры ' + saveInfo.farmName + ' выполнили ';
 		} else {
-			intro = saveInfo.players[saveInfo.farmerId] + ' has';
+			intro = saveInfo.players[saveInfo.farmerId] + ' выполнил ';
 		}
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + intro + ' completed ' + found_count + ' of ' +
-			town_count + ' town special orders.</span><br />\n';
+		output += '<span class="result">' + intro + found_count + ' из ' +
+			town_count + ' специальных заданий.</span><br />\n';
 		output += '<ul class="ach_list"><li>';
-		output += (found_count >= town_count) ? getMilestoneString('Complete all Special Orders', 1) :
-				getMilestoneString('Complete all Special Orders', 0) + (town_count - found_count) + ' more';
+		output += (found_count >= town_count) ? getMilestoneString('Выполнить все специальные задания', 1) :
+				getMilestoneString('Выполнить все специальные задания', 0, true) + (town_count - found_count);
 		output += '</li></ul></div>';
 		if (found_count < town_count) {
 			for (id in town) {
 				if (!found.hasOwnProperty(id)) {
-					need.push('<li>' + wikify(town[id], "Quests#List_of_Special_Orders", true) + '</li>');
+					need.push('<li>' + wikify(town[id], "Задания#Особые_задания", true) + '</li>');
 				}
 			}
 			if (need.length > 0) {
 				meta.hasDetails = true;
 				output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-				output += '<span class="need">Left to complete:<ol>' + need.sort().join('') + '</ol></span></div>';
+				output += '<span class="need">Осталось выполнить:<ol>' + need.sort().join('') + '</ol></span></div>';
 			}
 		}
 
