@@ -1536,7 +1536,7 @@ window.onload = function () {
 	}
 
 	function parseFamily(xmlDoc, saveInfo) {
-		var title = 'Home and Family',
+		var title = 'Дом и семья',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -1566,7 +1566,7 @@ window.onload = function () {
 			farmer = $(player).children('name').html(),
 			spouse = $(player).children('spouse').html(),
 			umid = (compareSemVer(saveInfo.version, "1.3") >= 0) ? $(player).children('UniqueMultiplayerID').text() : saveInfo.farmerId,
-			children = '(None)',
+			children = '(Нет)',
 			child_name = [],
 			houseUpgrades = Number($(player).children('houseUpgradeLevel').text());
 		if (typeof(spouse) !== 'undefined' && spouse.length > 0) {
@@ -1578,17 +1578,17 @@ window.onload = function () {
 			spouse = saveInfo.players[saveInfo.partners[umid]];
 			count++;
 		} else {
-			spouse = '(None)';
-			needs.push('spouse');
+			spouse = '(Нет)';
+			needs.push('супруг(а)');
 		}
 		// Technically, we should be searching the Friendship data for RoommateMarriage here, but for now we are hardcoding
-		var title = "spouse";
+		var title = "Супруг(а)";
 		if (spouse === "Krobus") {
-			title = "roommate"
+			title = "Сосед по комнате"
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + "'s " + title + ": " + spouse +
-			((meta.wedding) ? ' -- wedding in ' + meta.wedding + ' day(s)' : '') + '</span><br />\n';
+		output += '<span class="result">' + title + ' ' + farmer + ": " + spouse +
+			((meta.wedding) ? ' - свадьба через ' + meta.wedding + ' дней' : '') + '</span><br />\n';
 		if (saveInfo.children.hasOwnProperty(umid) && saveInfo.children[umid].length > 0) {
 			child_name = saveInfo.children[umid];
 			count += child_name.length;
@@ -1605,28 +1605,28 @@ window.onload = function () {
 		if (child_name.length) {
 			children = child_name.join(', ');
 			if (child_name.length === 1) {
-				needs.push("1 child");
+				needs.push("1 ребёнок");
 			}
 		} else {
-			needs.push("2 children");
+			needs.push("2 ребёнка");
 		}
-		output += '<span class="result">' + farmer + "'s children: " + children + '</span><ul class="ach_list"><li>\n';
-		output += (count >= 3) ? getAchieveString('Full House', 'Married + 2 kids', 1) :
-				getAchieveString('Full House', 'Married + 2 kids', 0) + needs.join(' and ');
+		output += '<span class="result">Дети ' + farmer + ": " + children + '</span><ul class="ach_list"><li>\n';
+		output += (count >= 3) ? getAchieveString('Домашний очаг', 'Пожениться и завести двух детей', 1) :
+				getAchieveString('Домашний очаг', 'Пожениться и завести двух детей', 0) + needs.join(' и ');
 		output += '</li></ul></div>';
 		table.push(output);
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + houseType + ' upgraded ' + houseUpgrades + ' time(s) of ';
-		output += maxUpgrades + ' possible.</span><br /><ul class="ach_list">\n';
+		output += '<span class="result">Дом улучшен ' + houseUpgrades + ' раз из ';
+		output += maxUpgrades + ' возможных.</span><br /><ul class="ach_list">\n';
 		output += '<li>';
-		output += (houseUpgrades >= 1) ? getAchieveString('Moving Up', '1 upgrade', 1) :
-				getAchieveString('Moving Up', '1 upgrade', 0) + (1 - houseUpgrades) + ' more';
+		output += (houseUpgrades >= 1) ? getAchieveString('Заживём!', 'Расширить свой дом', 1) :
+				getAchieveString('Заживём!', 'Расширить свой дом', 0, true) + (1 - houseUpgrades) + " улучшений";
 		output += '</li>\n<li>';
-		output += (houseUpgrades >= 2) ? getAchieveString('Living Large', '2 upgrades', 1) :
-				getAchieveString('Living Large', '2 upgrades', 0) + (2 - houseUpgrades) + ' more';
+		output += (houseUpgrades >= 2) ? getAchieveString('Красивая жизнь', 'Расширьте свой дом до максимального размера', 1) :
+				getAchieveString('Красивая жизнь', 'Расширьте свой дом до максимального размера', 0, true) + (2 - houseUpgrades) + " улучшений";
 		output += '</li>\n<li>';
-		output += (houseUpgrades >= maxUpgrades) ? getMilestoneString('House fully upgraded', 1) :
-				getMilestoneString('House fully upgraded', 0) + (maxUpgrades - houseUpgrades) + ' more';
+		output += (houseUpgrades >= maxUpgrades) ? getMilestoneString('Дом полность улучшен', 1) :
+				getMilestoneString('Дом полность улучшен', 0, true) + (maxUpgrades - houseUpgrades) + " улучшений";
 		output += '</li></ul></div>';
 		table.push(output);
 		return table;
