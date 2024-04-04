@@ -32,3 +32,8 @@ function translateRelStatus(status) {
     if (status === "dating") return "Встречается";
     return status;
 }
+
+function translateRecipe(id) {
+    id = id.replace(" ", "").replace("\'", "");
+    return translate(id + "_Name");
+}

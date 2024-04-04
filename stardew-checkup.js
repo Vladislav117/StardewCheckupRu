@@ -1378,10 +1378,10 @@ window.onload = function () {
 		};
 		for (var who in meta.npc) {
 			// Overriding status for the confrontation events
-			if (dumped_Girls > 0 && npc[who].isDatable && npc[who].isGirl) {
+			if (dumped_Girls > 0 && who.isDatable && who.isGirl) {
 				meta.npc[who].relStatus = 'Angry (' + dumped_Girls + ' more day(s))';
-			} else if (dumped_Guys > 0 && npc[who].isDatable && !npc[who].isGirl) {
-				nmeta.pc[who].relStatus = 'Angry (' + dumped_Guys + ' more day(s))';
+			} else if (dumped_Guys > 0 && who.isDatable && !who.isGirl) {
+				nmeta.npc[who].relStatus = 'Angry (' + dumped_Guys + ' more day(s))';
 			}
 			var pts = 0;
 			if (points.hasOwnProperty(who)) {
@@ -1633,7 +1633,7 @@ window.onload = function () {
 	}
 
 	function parseCooking(xmlDoc, saveInfo) {
-		var title = 'Cooking',
+		var title = 'Готовка',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -1811,22 +1811,22 @@ window.onload = function () {
 			pt_pct = getPTLink(craft_count / recipe_count, true);
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + $(player).children('name').html() + " has cooked " + craft_count + ' and knows ' +
-			known_count + ' of ' + recipe_count + ((mod_known > 0) ? " base game" : "") + ' recipes.' + pt_pct + '</span>\n';
+		output += '<span class="result">' + $(player).children('name').html() + " приготовил " + craft_count + ' и знает ' +
+			known_count + ' из ' + recipe_count + ((mod_known > 0) ? " base game" : "") + ' рецептов.' + pt_pct + '</span>\n';
 		if (mod_known > 0) {
-			output += '<br /><span class="result note">' + $(player).children('name').html() + " has also cooked " +
-				mod_craft + ' and knows ' + mod_known + " unrecognized (probably mod) recipes.</span>\n";
+			output += '<br /><span class="result note">' + $(player).children('name').html() + " также приготовил " +
+				mod_craft + ' и знает ' + mod_known + " неизвестных рецептов (возможно, из модов).</span>\n";
 		}
 		output += '<ul class="ach_list"><li>';
-		output += ( (craft_count + mod_craft) >= 10) ? getAchieveString('Cook', 'cook 10 different recipes', 1) :
-				getAchieveString('Cook', 'cook 10 different recipes', 0) + (10 - craft_count - mod_craft) + ' more';
+		output += ( (craft_count + mod_craft) >= 10) ? getAchieveString('Повар', 'Приготовить 10 различных блюд', 1) :
+				getAchieveString('Повар', 'Приготовить 10 различных блюд', 0, true) + (10 - craft_count - mod_craft);
 		output += '</li>\n<li>';
-		output += ( (craft_count + mod_craft) >= 25) ? getAchieveString('Sous Chef', 'cook 25 different recipes', 1) :
-				getAchieveString('Sous Chef', 'cook 25 different recipes', 0) + (25 - craft_count - mod_craft) + ' more';
+		output += ( (craft_count + mod_craft) >= 25) ? getAchieveString('Су-шеф', 'Приготовить 25 различных блюд', 1) :
+				getAchieveString('Су-шеф', 'Приготовить 25 различных блюд', 0, true) + (25 - craft_count - mod_craft);
 		output += '</li>\n<li>';
-		output += ( (craft_count + mod_craft) >= (recipe_count + mod_known) ) ? getAchieveString('Gourmet Chef', 'cook every recipe', 1) :
-				getAchieveString('Gourmet Chef', 'cook every recipe', 0) + ((mod_known > 0) ? "at least " : "") +
-				(recipe_count + mod_known - craft_count - mod_craft) + ' more';
+		output += ( (craft_count + mod_craft) >= (recipe_count + mod_known) ) ? getAchieveString('Шеф-повар', 'Приготовить каждое из блюд', 1) :
+				getAchieveString('Шеф-повар', 'Приготовить каждое из блюд', 0, true) + ((mod_known > 0) ? "как минимум " : "") +
+				(recipe_count + mod_known - craft_count - mod_craft);
 		output += '</li></ul></div>';
 		// We are assuming it is impossible to craft something without knowing the recipe.
 		if ( (craft_count + mod_craft) < (recipe_count + mod_known) ) {
@@ -1834,26 +1834,26 @@ window.onload = function () {
 				if (meta.recipes.hasOwnProperty(id)) {
 					r = meta.recipes[id];
 					if (!known.hasOwnProperty(r)) {
-						need_k.push('<li>' + wikify(r) + '</li>');
+						need_k.push('<li>' + wikify(translateRecipe(r)) + '</li>');
 					} else if (!crafted.hasOwnProperty(r)) {
-						need_c.push('<li>' + wikify(r) + '</li>');
+						need_c.push('<li>' + wikify(translateRecipe(r)) + '</li>');
 					}
 				}
 			}
 			meta.hasDetails = true;
 			output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-			output += '<span class="need">Left to cook:<ul>';
+			output += '<span class="need">Осталось приготовить:<ul>';
 			if (need_c.length > 0) {
-				output += '<li>Known Recipes<ol>' + need_c.sort().join('') + '</ol></li>\n';
+				output += '<li>Известные рецепты<ol>' + need_c.sort().join('') + '</ol></li>\n';
 			}
 			if (need_k.length > 0) {
-				output += '<li>Unknown Recipes<ol>' + need_k.sort().join('') + '</ol></li>\n';
+				output += '<li>Неизвестные рецепты<ol>' + need_k.sort().join('') + '</ol></li>\n';
 			}
 			if (mod_known > 0) {
 				if (mod_craft >= mod_known) {
-					output += '<li>Possibly additional mod recipes</li>';
+					output += '<li>Возможны дополнительные рецепты из модов</li>';
 				} else {
-					output += '<li>Plus at least ' + (mod_known - mod_craft) + ' mod recipes</li>';
+					output += '<li>Плюс как минимум ' + (mod_known - mod_craft) + ' рецептов из модов</li>';
 				}
 			}
 			output += '</ul></span></div>';
@@ -3216,7 +3216,7 @@ window.onload = function () {
 			meta.categories["Magma Duggy"] = "Duggies";
 			meta.monsters["Duggies"].push("Magma Duggy");
 			meta.categories["Iridium Bat"] = "Bats";
-			meta.monsters["Bats"].push("Iridum Bat");
+			meta.monsters["Bats"].push("Iridium Bat");
 			meta.categories["Royal Serpent"] = "Serpents";
 			meta.monsters["Serpents"].push("Royal Serpent");
 			// These exist now in hard mode so need to be included in output
