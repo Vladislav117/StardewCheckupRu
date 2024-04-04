@@ -7,7 +7,7 @@ function translateSeason(season) {
     season = season.toLowerCase();
     if (season === "spring") return "Весна";
     if (season === "summer") return "Лето";
-    if (season === "autumn") return "Осень";
+    if (season === "fall") return "Осень";
     if (season === "winter") return "Зима";
     return season;
 }
@@ -18,4 +18,8 @@ function translateMonsterHuntingCategory(id) {
 
 function translateMonster(id) {
     return id;
+}
+
+function translateCharacter(id) {
+    return translate(id);
 }

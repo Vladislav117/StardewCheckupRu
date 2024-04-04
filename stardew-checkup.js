@@ -1587,7 +1587,7 @@ window.onload = function () {
 			title = "Сосед по комнате"
 		}
 		output += '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + title + ' ' + farmer + ": " + spouse +
+		output += '<span class="result">' + title + ' ' + farmer + ": " + wikify(translateCharacter(spouse)) +
 			((meta.wedding) ? ' - свадьба через ' + meta.wedding + ' дней' : '') + '</span><br />\n';
 		if (saveInfo.children.hasOwnProperty(umid) && saveInfo.children[umid].length > 0) {
 			child_name = saveInfo.children[umid];
