@@ -1130,7 +1130,7 @@ window.onload = function () {
 	}
 
 	function parseSocial(xmlDoc, saveInfo) {
-		var title = 'Social',
+		var title = 'Отношения',
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
@@ -1391,15 +1391,15 @@ window.onload = function () {
 			}
 			var hearts = Math.floor(pts/250);
 			var entry = '<li>';
-			entry += (meta.npc[who].isChild) ? who + ' (' + wikify('Child', 'Children') + ')' : wikify(who);
-			entry += ': ' + meta.npc[who].relStatus + ', ' + hearts + '&#x2665; (' + pts + ' pts) -- ';
+			entry += (meta.npc[who].isChild) ? who + ' (' + wikify('Ребёнок', 'Дети') + ')' : wikify(translateCharacter(who));
+			entry += ': ' + translateRelStatus(meta.npc[who].relStatus) + ', ' + hearts + '&#x2665; (' + pts + ' очков) - ';
 
 			// Check events
 			// We want to only make an Event list item if there are actually events for this NPC.
 			var eventInfo = '';
 			if (meta.eventList.hasOwnProperty(who)) {
 				if (meta.eventList[who].length > 0) {
-					eventInfo += '<ul class="compact"><li>Event(s): ';
+					eventInfo += '<ul class="compact"><li>События: ';
 					meta.eventList[who].sort(function (a,b) { return a[0] - b[0]; });
 					meta.eventList[who].forEach(function (a) { eventCheck(a, who); });
 					eventInfo += '</li></ul>';
@@ -1412,8 +1412,8 @@ window.onload = function () {
 				if (compareSemVer(saveInfo.version, "1.4") >= 0) {
 					max = 3500;
 				}
-				entry += (pts >= max) ? '<span class="ms_yes">MAX (can still decay)</span></li>' :
-					'<span class="ms_no">need ' + (max - pts) + ' more</span></li>';
+				entry += (pts >= max) ? '<span class="ms_yes">Максимум (всё ещё не может уменьшаться)</span></li>' :
+					'<span class="ms_no">нужно ещё ' + (max - pts) + '</span></li>';
 				hasNPCSpouse = true;
 				list_fam.push(entry + eventInfo);
 			} else if (meta.npc[who].isDatable) {
@@ -1421,12 +1421,12 @@ window.onload = function () {
 				if (meta.npc[who].relStatus === 'Dating') {
 					max = 2500;
 				}
-				entry += (pts >= max) ? '<span class="ms_yes">MAX</span></li>' :
-					'<span class="ms_no">need ' + (max - pts) + ' more</span></li>';
+				entry += (pts >= max) ? '<span class="ms_yes">Максимум</span></li>' :
+					'<span class="ms_no">нужно ещё ' + (max - pts) + '</span></li>';
 				list_bach.push(entry + eventInfo);
 			} else {
-				entry += (pts >= 2500) ? '<span class="ms_yes">MAX</span></li>' :
-					'<span class="ms_no">need ' + (2500 - pts) + ' more</span></li>';
+				entry += (pts >= 2500) ? '<span class="ms_yes">Максимум</span></li>' :
+					'<span class="ms_no">нужно ещё ' + (2500 - pts) + '</span></li>';
 				if (meta.npc[who].isChild) {
 					list_fam.push(entry + eventInfo);
 				} else {
@@ -1460,44 +1460,44 @@ window.onload = function () {
 		});
 
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + ' has ' + (hasCompletedIntroductions ? "" : "not ") +
-				'met everyone in town.</span><ul class="ach_list">\n';
+		output += '<span class="result">' + farmer + ' встретил ' + (hasCompletedIntroductions ? "" : "не ") +
+				'всех в городе.</span><ul class="ach_list">\n';
 		output += '<li>';
-		output += (list_intro.length == 0) ? getMilestoneString('Complete <span class="ach">Introductions</span> quest', 1) :
-				getMilestoneString('Complete <span class="ach">Introductions</span> quest', 0) + (list_intro.length) + ' more';
+		output += (list_intro.length == 0) ? getMilestoneString('Завершить задание <span class="ach">Первое знакомство</span>', 1) :
+				getMilestoneString('Завершить задание <span class="ach">Первое знакомство</span>', 0, true) + (list_intro.length);
 		output += '</li></ul></div>';
 		output += '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
 		if (list_intro.length > 0) {
-			output += '<span class="need">Villagers left to meet<ol><li>' + list_intro.sort().join('</li><li>') + '</li></ol></span>\n';
+			output += '<span class="need">Осталось встретить жителей<ol><li>' + list_intro.sort().join('</li><li>') + '</li></ol></span>\n';
 		}
 		output += '</div>';
 		table.push(output);
 
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + ' has ' + count_5h + ' relationship(s) of 5+ hearts.</span><ul class="ach_list">\n';
+		output += '<span class="result">' + farmer + ' имеет ' + count_5h + ' отношений на 5+ сердец.</span><ul class="ach_list">\n';
 		output += '<li>';
-		output += (count_5h >= 1) ? getAchieveString('A New Friend', '5&#x2665; with 1 person', 1) :
-				getAchieveString('A New Friend', '5&#x2665; with 1 person', 0) + (1 - count_5h) + ' more';
+		output += (count_5h >= 1) ? getAchieveString('Новый друг', '5&#x2665; с 1 человеком', 1) :
+				getAchieveString('Новый друг', '5&#x2665; с 1 человеком', 0, true) + (1 - count_5h) ;
 		output += '</li>\n<li>';
-		output += (count_5h >= 4) ? getAchieveString('Cliques', '5&#x2665; with 4 people', 1) :
-				getAchieveString('Cliques', '5&#x2665; with 4 people', 0) + (4 - count_5h) + ' more\n';
+		output += (count_5h >= 4) ? getAchieveString('Потому что мы - банда!', '5&#x2665; с 4 людьми', 1) :
+				getAchieveString('Потому что мы - банда!', '5&#x2665; с 4 людьми', 0, true) + (4 - count_5h);
 		output += '</li>\n<li>';
-		output += (count_5h >= 10) ? getAchieveString('Networking', '5&#x2665; with 10 people', 1) :
-				getAchieveString('Networking', '5&#x2665; with 10 people', 0) + (10 - count_5h) + ' more';
+		output += (count_5h >= 10) ? getAchieveString('Связи', '5&#x2665; с 10 людьми', 1) :
+				getAchieveString('Связи', '5&#x2665; с 10 людьми', 0, true) + (10 - count_5h);
 		output += '</li>\n<li>';
-		output += (count_5h >= 20) ? getAchieveString('Popular', '5&#x2665; with 20 people', 1) :
-				getAchieveString('Popular', '5&#x2665; with 20 people', 0) + (20 - count_5h) + ' more';
+		output += (count_5h >= 20) ? getAchieveString('Популярность', '5&#x2665; с 20 людьми', 1) :
+				getAchieveString('Популярность', '5&#x2665; с 20 людьми', 0, true) + (20 - count_5h);
 		output += '</li></ul></div>';
 		table.push(output);
 
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + ' has ' + count_10h + ' relationships of 10+ hearts.</span><ul class="ach_list">\n';
+		output += '<span class="result">' + farmer + ' имеет ' + count_10h + ' отношений на 10+ сердец.</span><ul class="ach_list">\n';
 		output += '<li>';
-		output += (count_10h >= 1) ? getAchieveString('Best Friends', '10&#x2665; with 1 person', 1) :
-				getAchieveString('Best Friends', '10&#x2665; with 1 person', 0) + (1 - count_10h) + ' more';
+		output += (count_10h >= 1) ? getAchieveString('Лучшие друзья', '10&#x2665; с 1 человеком', 1) :
+				getAchieveString('Лучшие друзья', '10&#x2665; с 1 человеком', 0, true) + (1 - count_10h);
 		output += '</li>\n<li>';
-		output += (count_10h >= 8) ? getAchieveString('The Beloved Farmer', '10&#x2665; with 8 people', 1) :
-				getAchieveString('The Beloved Farmer', '10&#x2665; with 8 people', 0) + (8 - count_10h) + ' more';
+		output += (count_10h >= 8) ? getAchieveString('Наш любимый фермер', '10&#x2665; с 8 людьми', 1) :
+				getAchieveString('Наш любимый фермер', '10&#x2665; с 8 людьми', 0, true) + (8 - count_10h);
 		output += '</li></ul></div>';
 		table.push(output);
 
@@ -1506,28 +1506,28 @@ window.onload = function () {
 			pt_pct = getPTLink(maxed_count / maxed_total, true);
 		}
 		output = '<div class="' + meta.anchor + '_summary ' + meta.sum_class + '">';
-		output += '<span class="result">' + farmer + ' has maxed ' + maxed_count + ' of ' + maxed_total +
-				' base game villager relationships.' + pt_pct + '</span><br />';
-		output += '<span class="explain">Note: for this milestone, all dateable NPCs are considered maxed at 8 hearts.</span><ul class="ach_list">\n';
+		output += '<span class="result">' + farmer + ' добился максимума в ' + maxed_count + ' из ' + maxed_total +
+				' отношениях с основными жителями.' + pt_pct + '</span><br />';
+		output += '<span class="explain">Важно: Максимумом для всех жителей, с которыми можно встречаться, является 8 сердец, а не 10, как у остальных.</span><ul class="ach_list">\n';
 		output += '<li>';
-		output += (maxed_count >= maxed_total) ? getMilestoneString('Max out hearts with all base game villagers', 1) :
-				getMilestoneString('Max out hearts with all base game villagers', 0) + (maxed_total - maxed_count) + ' more';
+		output += (maxed_count >= maxed_total) ? getMilestoneString('Максимум сердец со всеми основными жителями', 1) :
+				getMilestoneString('Максимум сердец со всеми основными жителями', 0, true) + (maxed_total - maxed_count);
 		output += '</li></ul></div>';
 		table.push(output);
 
 		output = '<div class="' + meta.anchor + '_details ' + meta.det_class + '">';
-		output += '<span class="result">Individual Friendship Progress for ' + farmer + '</span><ul class="outer">';
+		output += '<span class="result">Индивидуальный прогресс дружбы ' + farmer + '</span><ul class="outer">';
 		if (list_fam.length > 0) {
-			output += '<li>Family (includes all player children)<ol class="compact">' + list_fam.sort().join('') + '</ol></li>\n';
+			output += '<li>Семья (всключая всех детей игрока)<ol class="compact">' + list_fam.sort().join('') + '</ol></li>\n';
 		}
 		if (list_bach.length > 0) {
-			output += '<li>Datable Villagers<ol class="compact">' + list_bach.sort().join('') + '</ol></li>\n';
+			output += '<li>Жители, с которыми можно встречаться<ol class="compact">' + list_bach.sort().join('') + '</ol></li>\n';
 		}
 		if (list_poly.length > 0) {
-			output += '<li>Polyamory Events<ol class="compact">' + list_poly.sort().join('') + '</ol></li>\n';
+			output += '<li>Полиаморные события<ol class="compact">' + list_poly.sort().join('') + '</ol></li>\n';
 		}
 		if (list_other.length > 0) {
-			output += '<li>Other Villagers<ol class="compact">' + list_other.sort().join('') + '</ol></li>\n';
+			output += '<li>Другие жители<ol class="compact">' + list_other.sort().join('') + '</ol></li>\n';
 		}
 		output += '</ul></div>';
 		meta.hasDetails = true; // this one always has details because of the friendship progress

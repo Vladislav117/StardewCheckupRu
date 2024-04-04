@@ -23,3 +23,12 @@ function translateMonster(id) {
 function translateCharacter(id) {
     return translate(id);
 }
+
+function translateRelStatus(status) {
+    status = status.toLowerCase();
+    if (status === "unmet") return "Незнакомец";
+    if (status === "friendly") return "Друг";
+    if (status === "married") return "Жена/муж";
+    if (status === "dating") return "Встречается";
+    return status;
+}
